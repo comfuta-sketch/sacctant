@@ -17,16 +17,20 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
+import {
+  DeclaracaoFormDialog,
+  whatsappUrl,
+} from "@/components/DeclaracaoFormDialog";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Contabilidade Digital | IRPF, CPF e MEI com Segurança" },
+      { title: "S.ACCTANT | Contabilidade Digital — IRPF, CPF e MEI" },
       {
         name: "description",
         content:
-          "Atendimento especializado em IRPF, regularização de CPF e consultoria MEI. Conformidade fiscal com segurança e precisão. 100% online.",
+          "S.ACCTANT — atendimento especializado em IRPF, regularização de CPF e consultoria MEI em São Luís/MA. 100% online, com segurança.",
       },
     ],
   }),
@@ -136,7 +140,7 @@ function Index() {
       `Ainda preciso providenciar (${missing.length}):`,
       ...(missing.length ? missing.map((d) => `• ${d}`) : ["—"]),
     ].join("\n");
-    return `https://wa.me/5500000000000?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/5598984776989?text=${encodeURIComponent(msg)}`;
   }, [checked]);
 
   const startEditing = () => {
@@ -187,7 +191,7 @@ function Index() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              Contábil<span className="text-graphite">.Digital</span>
+              S.<span className="text-graphite">ACCTANT</span>
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-8 text-sm text-graphite">
@@ -196,12 +200,16 @@ function Index() {
             <a href="#checklist" className="hover:text-navy transition-colors">Checklist</a>
             <a href="#contato" className="hover:text-navy transition-colors">Contato</a>
           </nav>
-          <a
-            href="#checklist"
-            className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-navy-deep transition-colors"
-          >
-            Iniciar Declaração
-          </a>
+          <DeclaracaoFormDialog
+            trigger={
+              <button
+                type="button"
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-navy-deep transition-colors"
+              >
+                Iniciar Declaração
+              </button>
+            }
+          />
         </div>
       </header>
 
@@ -223,13 +231,17 @@ function Index() {
               proteção e precisão.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a
-                href="#checklist"
-                className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-medium text-primary-foreground hover:bg-navy-deep transition-all hover:gap-3"
-              >
-                Iniciar Declaração
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              <DeclaracaoFormDialog
+                trigger={
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-medium text-primary-foreground hover:bg-navy-deep transition-all hover:gap-3"
+                  >
+                    Iniciar Declaração
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                }
+              />
               <a
                 href="#servicos"
                 className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-base font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
@@ -514,12 +526,12 @@ function Index() {
                   <Calculator className="h-4 w-4 text-primary-foreground" />
                 </div>
                 <span className="font-semibold tracking-tight text-navy-deep">
-                  Contábil<span className="text-graphite">.Digital</span>
+                  S.<span className="text-graphite">ACCTANT</span>
                 </span>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-graphite max-w-xs">
                 Contabilidade digital especializada em pessoas físicas e
-                microempreendedores.
+                microempreendedores em São Luís/MA.
               </p>
             </div>
 
@@ -528,15 +540,22 @@ function Index() {
               <ul className="mt-4 space-y-3 text-sm text-graphite">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-navy" />
-                  <span>contato@contabildigital.com.br</span>
+                  <span>marcos@sacctant.com.br</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-navy" />
-                  <span>(00) 00000-0000</span>
+                  <span>(98) 98477-6989</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4 text-navy" />
-                  <span>WhatsApp disponível</span>
+                <li>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-3 py-2 text-xs font-semibold text-primary-foreground hover:bg-navy-deep transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Falar com Marcos no WhatsApp
+                  </a>
                 </li>
               </ul>
             </div>
@@ -554,11 +573,22 @@ function Index() {
           </div>
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} Contábil.Digital — Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} S.ACCTANT — Todos os direitos reservados.</p>
             <p>CRC ativo • LGPD compliant</p>
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp button */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Falar com Marcos no WhatsApp"
+        className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 hover:scale-105 transition-transform"
+      >
+        <MessageCircle className="h-7 w-7" />
+      </a>
     </div>
   );
 }
