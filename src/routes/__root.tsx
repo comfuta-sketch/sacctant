@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "S.ACCTANT | Contabilidade Digital e IRPF" },
+      { name: "description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "S.ACCTANT | Contabilidade Digital e IRPF" },
+      { property: "og:description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "S.ACCTANT | Contabilidade Digital e IRPF" },
+      { name: "twitter:description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JvoMFThpIIZd6uanb50FUDm3W8f2/social-images/social-1778275936018-Gemini_Generated_Image_oi4am3oi4am3oi4a.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JvoMFThpIIZd6uanb50FUDm3W8f2/social-images/social-1778275936018-Gemini_Generated_Image_oi4am3oi4am3oi4a.webp" },
     ],
     links: [
       {
