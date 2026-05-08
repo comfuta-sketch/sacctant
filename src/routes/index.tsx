@@ -191,7 +191,7 @@ function Index() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              Contábil<span className="text-graphite">.Digital</span>
+              S.<span className="text-graphite">ACCTANT</span>
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-8 text-sm text-graphite">
