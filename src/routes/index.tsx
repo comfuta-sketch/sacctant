@@ -526,12 +526,12 @@ function Index() {
                   <Calculator className="h-4 w-4 text-primary-foreground" />
                 </div>
                 <span className="font-semibold tracking-tight text-navy-deep">
-                  Contábil<span className="text-graphite">.Digital</span>
+                  S.<span className="text-graphite">ACCTANT</span>
                 </span>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-graphite max-w-xs">
                 Contabilidade digital especializada em pessoas físicas e
-                microempreendedores.
+                microempreendedores em São Luís/MA.
               </p>
             </div>
 
@@ -540,15 +540,22 @@ function Index() {
               <ul className="mt-4 space-y-3 text-sm text-graphite">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-navy" />
-                  <span>contato@contabildigital.com.br</span>
+                  <span>marcos@sacctant.com.br</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-navy" />
-                  <span>(00) 00000-0000</span>
+                  <span>(98) 98477-6989</span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4 text-navy" />
-                  <span>WhatsApp disponível</span>
+                <li>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-3 py-2 text-xs font-semibold text-primary-foreground hover:bg-navy-deep transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Falar com Marcos no WhatsApp
+                  </a>
                 </li>
               </ul>
             </div>
@@ -566,11 +573,22 @@ function Index() {
           </div>
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} Contábil.Digital — Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} S.ACCTANT — Todos os direitos reservados.</p>
             <p>CRC ativo • LGPD compliant</p>
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp button */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Falar com Marcos no WhatsApp"
+        className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 hover:scale-105 transition-transform"
+      >
+        <MessageCircle className="h-7 w-7" />
+      </a>
     </div>
   );
 }
