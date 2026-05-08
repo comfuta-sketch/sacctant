@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   ShieldCheck,
   GraduationCap,
@@ -13,6 +13,9 @@ import {
   Mail,
   Phone,
   MessageCircle,
+  Pencil,
+  Save,
+  RotateCcw,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -29,32 +32,48 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-const services = [
+type Service = {
+  id: string;
+  title: string;
+  desc: string;
+  price: string;
+};
+
+const SERVICE_ICONS = {
+  irpf: FileText,
+  cpf: CreditCard,
+  mei: Briefcase,
+  planejamento: Calculator,
+} as const;
+
+const defaultServices: Service[] = [
   {
-    icon: FileText,
+    id: "irpf",
     title: "Declaração de IRPF",
     desc: "Elaboração completa, revisão e envio com acompanhamento da malha fina.",
-    price: "R$ 180",
+    price: "180",
   },
   {
-    icon: CreditCard,
+    id: "cpf",
     title: "Regularização de CPF",
     desc: "Resolução de pendências, restituições e situação cadastral na Receita.",
-    price: "R$ 120",
+    price: "120",
   },
   {
-    icon: Briefcase,
+    id: "mei",
     title: "Consultoria MEI",
     desc: "Abertura, DAS, DASN-SIMEI e orientação para a Reforma Tributária.",
-    price: "R$ 90",
+    price: "90",
   },
   {
-    icon: Calculator,
+    id: "planejamento",
     title: "Planejamento Tributário",
     desc: "Análise individualizada para reduzir tributos dentro da legalidade.",
-    price: "R$ 250",
+    price: "250",
   },
 ];
+
+const STORAGE_KEY = "contabil.services.v1";
 
 const documents = [
   "RG ou CNH",
@@ -65,8 +84,37 @@ const documents = [
   "Recibos médicos e educacionais",
 ];
 
+function formatPrice(price: string) {
+  const trimmed = price.trim();
+  if (!trimmed) return "—";
+  // If user already typed a currency prefix, keep it; otherwise prepend R$
+  if (/^r\$/i.test(trimmed)) return trimmed;
+  return `R$ ${trimmed}`;
+}
+
 function Index() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [services, setServices] = useState<Service[]>(defaultServices);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState<Service[]>(defaultServices);
+
+  // Load saved services from localStorage on the client only (avoids SSR hydration mismatch)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Service[];
+        // Merge with defaults to keep ids/icons in sync
+        const merged = defaultServices.map(
+          (d) => parsed.find((p) => p.id === d.id) ?? d,
+        );
+        setServices(merged);
+        setDraft(merged);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const toggle = (doc: string) =>
     setChecked((c) => ({ ...c, [doc]: !c[doc] }));
@@ -90,6 +138,44 @@ function Index() {
     ].join("\n");
     return `https://wa.me/5500000000000?text=${encodeURIComponent(msg)}`;
   }, [checked]);
+
+  const startEditing = () => {
+    setDraft(services);
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setDraft(services);
+    setEditing(false);
+  };
+
+  const saveEditing = () => {
+    setServices(draft);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+    } catch {
+      // ignore
+    }
+    setEditing(false);
+  };
+
+  const resetServices = () => {
+    setServices(defaultServices);
+    setDraft(defaultServices);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+  };
+
+  const updateDraft = (id: string, field: keyof Service, value: string) => {
+    setDraft((d) =>
+      d.map((s) => (s.id === id ? { ...s, [field]: value } : s)),
+    );
+  };
+
+  const list = editing ? draft : services;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -153,7 +239,6 @@ function Index() {
             </div>
           </div>
         </div>
-        {/* subtle background accent */}
         <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-navy/5 blur-3xl" />
       </section>
 
@@ -217,40 +302,119 @@ function Index() {
                 Soluções claras, valores transparentes
               </h2>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Valores referenciais. Orçamento final após análise.
-            </p>
+            <div className="flex items-center gap-2">
+              {!editing ? (
+                <button
+                  type="button"
+                  onClick={startEditing}
+                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
+                >
+                  <Pencil className="h-4 w-4" />
+                  Editar serviços
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={resetServices}
+                    className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
+                    title="Restaurar valores padrão"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Restaurar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={cancelEditing}
+                    className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveEditing}
+                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-navy-deep transition-colors"
+                  >
+                    <Save className="h-4 w-4" />
+                    Salvar
+                  </button>
+                </>
+              )}
+            </div>
           </div>
+          {editing && (
+            <p className="mt-4 text-xs text-muted-foreground">
+              As alterações ficam salvas apenas neste navegador. O prefixo
+              "R$" é adicionado automaticamente ao preço.
+            </p>
+          )}
 
           <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2">
-            {services.map((s) => (
-              <div
-                key={s.title}
-                className="group flex items-start gap-5 bg-background p-7 hover:bg-soft-gray/60 transition-colors"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-navy/8 text-navy">
-                  <s.icon className="h-5 w-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="text-lg font-semibold text-navy-deep">
-                      {s.title}
-                    </h3>
-                    <div className="text-right">
-                      <span className="text-[11px] uppercase tracking-wider text-muted-foreground block">
-                        A partir de
-                      </span>
-                      <span className="text-base font-semibold text-navy">
-                        {s.price}
-                      </span>
-                    </div>
+            {list.map((s) => {
+              const Icon = SERVICE_ICONS[s.id as keyof typeof SERVICE_ICONS] ?? FileText;
+              return (
+                <div
+                  key={s.id}
+                  className="group flex items-start gap-5 bg-background p-7 hover:bg-soft-gray/60 transition-colors"
+                >
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-navy/8 text-navy">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-graphite">
-                    {s.desc}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline justify-between gap-3">
+                      {editing ? (
+                        <input
+                          value={s.title}
+                          onChange={(e) =>
+                            updateDraft(s.id, "title", e.target.value)
+                          }
+                          className="flex-1 min-w-0 rounded-md border border-border bg-background px-2 py-1 text-lg font-semibold text-navy-deep focus:border-navy focus:outline-none"
+                        />
+                      ) : (
+                        <h3 className="text-lg font-semibold text-navy-deep">
+                          {s.title}
+                        </h3>
+                      )}
+                      <div className="text-right shrink-0">
+                        <span className="text-[11px] uppercase tracking-wider text-muted-foreground block">
+                          A partir de
+                        </span>
+                        {editing ? (
+                          <div className="flex items-center gap-1">
+                            <span className="text-base font-semibold text-navy">R$</span>
+                            <input
+                              value={s.price}
+                              onChange={(e) =>
+                                updateDraft(s.id, "price", e.target.value)
+                              }
+                              className="w-20 rounded-md border border-border bg-background px-2 py-1 text-base font-semibold text-navy focus:border-navy focus:outline-none text-right"
+                            />
+                          </div>
+                        ) : (
+                          <span className="text-base font-semibold text-navy">
+                            {formatPrice(s.price)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {editing ? (
+                      <textarea
+                        value={s.desc}
+                        onChange={(e) =>
+                          updateDraft(s.id, "desc", e.target.value)
+                        }
+                        rows={3}
+                        className="mt-2 w-full rounded-md border border-border bg-background px-2 py-1 text-sm leading-relaxed text-graphite focus:border-navy focus:outline-none resize-none"
+                      />
+                    ) : (
+                      <p className="mt-2 text-sm leading-relaxed text-graphite">
+                        {s.desc}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -363,13 +527,16 @@ function Index() {
               <h4 className="text-sm font-semibold text-navy-deep">Contato</h4>
               <ul className="mt-4 space-y-3 text-sm text-graphite">
                 <li className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-navy" /> contato@contabildigital.com.br
+                  <Mail className="h-4 w-4 text-navy" />
+                  <span>contato@contabildigital.com.br</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone className="h-4 w-4 text-navy" /> (00) 00000-0000
+                  <Phone className="h-4 w-4 text-navy" />
+                  <span>(00) 00000-0000</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4 text-navy" /> WhatsApp disponível
+                  <MessageCircle className="h-4 w-4 text-navy" />
+                  <span>WhatsApp disponível</span>
                 </li>
               </ul>
             </div>
