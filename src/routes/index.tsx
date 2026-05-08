@@ -231,13 +231,17 @@ function Index() {
               proteção e precisão.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a
-                href="#checklist"
-                className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-medium text-primary-foreground hover:bg-navy-deep transition-all hover:gap-3"
-              >
-                Iniciar Declaração
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              <DeclaracaoFormDialog
+                trigger={
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-medium text-primary-foreground hover:bg-navy-deep transition-all hover:gap-3"
+                  >
+                    Iniciar Declaração
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                }
+              />
               <a
                 href="#servicos"
                 className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-base font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
