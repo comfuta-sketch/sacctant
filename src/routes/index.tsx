@@ -17,16 +17,20 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
+import {
+  DeclaracaoFormDialog,
+  whatsappUrl,
+} from "@/components/DeclaracaoFormDialog";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Contabilidade Digital | IRPF, CPF e MEI com Segurança" },
+      { title: "S.ACCTANT | Contabilidade Digital — IRPF, CPF e MEI" },
       {
         name: "description",
         content:
-          "Atendimento especializado em IRPF, regularização de CPF e consultoria MEI. Conformidade fiscal com segurança e precisão. 100% online.",
+          "S.ACCTANT — atendimento especializado em IRPF, regularização de CPF e consultoria MEI em São Luís/MA. 100% online, com segurança.",
       },
     ],
   }),
