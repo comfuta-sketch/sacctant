@@ -140,7 +140,7 @@ function Index() {
       `Ainda preciso providenciar (${missing.length}):`,
       ...(missing.length ? missing.map((d) => `• ${d}`) : ["—"]),
     ].join("\n");
-    return `https://wa.me/5500000000000?text=${encodeURIComponent(msg)}`;
+    return `https://wa.me/5598984776989?text=${encodeURIComponent(msg)}`;
   }, [checked]);
 
   const startEditing = () => {
