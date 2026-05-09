@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { User as UserIcon } from "lucide-react";
 import {
   ShieldCheck,
   GraduationCap,
@@ -97,6 +99,7 @@ function formatPrice(price: string) {
 }
 
 function Index() {
+  const { user, isAdmin } = useAuth();
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [services, setServices] = useState<Service[]>(defaultServices);
   const [editing, setEditing] = useState(false);
@@ -200,16 +203,36 @@ function Index() {
             <a href="#checklist" className="hover:text-navy transition-colors">Checklist</a>
             <a href="#contato" className="hover:text-navy transition-colors">Contato</a>
           </nav>
-          <DeclaracaoFormDialog
-            trigger={
-              <button
-                type="button"
-                className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-navy-deep transition-colors"
+          <div className="flex items-center gap-2">
+            {user ? (
+              <Link
+                to={isAdmin ? "/admin" : "/cliente"}
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
               >
-                Iniciar Declaração
-              </button>
-            }
-          />
+                <UserIcon className="h-4 w-4" />
+                {isAdmin ? "Painel Admin" : "Minha Área"}
+              </Link>
+            ) : (
+              <Link
+                to="/auth"
+                search={{ redirect: "/cliente" }}
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-graphite hover:border-navy hover:text-navy transition-colors"
+              >
+                <UserIcon className="h-4 w-4" />
+                Área do Cliente
+              </Link>
+            )}
+            <DeclaracaoFormDialog
+              trigger={
+                <button
+                  type="button"
+                  className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-navy px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-navy-deep transition-colors"
+                >
+                  Iniciar Declaração
+                </button>
+              }
+            />
+          </div>
         </div>
       </header>
 
