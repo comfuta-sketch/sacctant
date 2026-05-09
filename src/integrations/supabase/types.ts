@@ -14,16 +14,183 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      clientes: {
+        Row: {
+          agencia: string | null
+          bairro: string | null
+          banco: string | null
+          cep: string | null
+          conta_ou_pix: string | null
+          cpf: string
+          created_at: string
+          documentos_marcados: Json | null
+          email: string
+          id: string
+          logradouro: string | null
+          nome: string
+          numero: string | null
+          observacoes: string | null
+          status: Database["public"]["Enums"]["status_servico"]
+          telefone: string
+          titulo_eleitor: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agencia?: string | null
+          bairro?: string | null
+          banco?: string | null
+          cep?: string | null
+          conta_ou_pix?: string | null
+          cpf: string
+          created_at?: string
+          documentos_marcados?: Json | null
+          email: string
+          id?: string
+          logradouro?: string | null
+          nome: string
+          numero?: string | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["status_servico"]
+          telefone: string
+          titulo_eleitor?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agencia?: string | null
+          bairro?: string | null
+          banco?: string | null
+          cep?: string | null
+          conta_ou_pix?: string | null
+          cpf?: string
+          created_at?: string
+          documentos_marcados?: Json | null
+          email?: string
+          id?: string
+          logradouro?: string | null
+          nome?: string
+          numero?: string | null
+          observacoes?: string | null
+          status?: Database["public"]["Enums"]["status_servico"]
+          telefone?: string
+          titulo_eleitor?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      documentos: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          id: string
+          mime_type: string | null
+          nome_arquivo: string
+          storage_path: string
+          tamanho_bytes: number | null
+          tipo: string
+          uploaded_by: string | null
+          user_id: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          id?: string
+          mime_type?: string | null
+          nome_arquivo: string
+          storage_path: string
+          tamanho_bytes?: number | null
+          tipo: string
+          uploaded_by?: string | null
+          user_id: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          id?: string
+          mime_type?: string | null
+          nome_arquivo?: string
+          storage_path?: string
+          tamanho_bytes?: number | null
+          tipo?: string
+          uploaded_by?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documentos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          cpf: string | null
+          created_at: string
+          email: string | null
+          id: string
+          nome: string | null
+          updated_at: string
+        }
+        Insert: {
+          cpf?: string | null
+          created_at?: string
+          email?: string | null
+          id: string
+          nome?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cpf?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nome?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "cliente"
+      status_servico: "aguardando_documentos" | "em_analise" | "concluido"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +317,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "cliente"],
+      status_servico: ["aguardando_documentos", "em_analise", "concluido"],
+    },
   },
 } as const
