@@ -13,6 +13,8 @@ import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRedefinirRouteImport } from './routes/auth.redefinir'
+import { Route as AuthRecuperarRouteImport } from './routes/auth.recuperar'
 
 const ClienteRoute = ClienteRouteImport.update({
   id: '/cliente',
@@ -34,38 +36,73 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRedefinirRoute = AuthRedefinirRouteImport.update({
+  id: '/redefinir',
+  path: '/redefinir',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthRecuperarRoute = AuthRecuperarRouteImport.update({
+  id: '/recuperar',
+  path: '/recuperar',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/auth/recuperar': typeof AuthRecuperarRoute
+  '/auth/redefinir': typeof AuthRedefinirRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/auth/recuperar': typeof AuthRecuperarRoute
+  '/auth/redefinir': typeof AuthRedefinirRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/auth/recuperar': typeof AuthRecuperarRoute
+  '/auth/redefinir': typeof AuthRedefinirRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/auth' | '/cliente'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/cliente'
+    | '/auth/recuperar'
+    | '/auth/redefinir'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/auth' | '/cliente'
-  id: '__root__' | '/' | '/admin' | '/auth' | '/cliente'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/cliente'
+    | '/auth/recuperar'
+    | '/auth/redefinir'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/cliente'
+    | '/auth/recuperar'
+    | '/auth/redefinir'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   ClienteRoute: typeof ClienteRoute
 }
 
@@ -99,13 +136,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/redefinir': {
+      id: '/auth/redefinir'
+      path: '/redefinir'
+      fullPath: '/auth/redefinir'
+      preLoaderRoute: typeof AuthRedefinirRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/recuperar': {
+      id: '/auth/recuperar'
+      path: '/recuperar'
+      fullPath: '/auth/recuperar'
+      preLoaderRoute: typeof AuthRecuperarRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
+
+interface AuthRouteChildren {
+  AuthRecuperarRoute: typeof AuthRecuperarRoute
+  AuthRedefinirRoute: typeof AuthRedefinirRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthRecuperarRoute: AuthRecuperarRoute,
+  AuthRedefinirRoute: AuthRedefinirRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   ClienteRoute: ClienteRoute,
 }
 export const routeTree = rootRouteImport
