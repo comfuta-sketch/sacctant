@@ -19,10 +19,9 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
-import {
-  DeclaracaoFormDialog,
-  whatsappUrl,
-} from "@/components/DeclaracaoFormDialog";
+import { IrpfWizardDialog } from "@/components/irpf/IrpfWizardDialog";
+import { WHATSAPP_URL as whatsappUrl } from "@/lib/auth-helpers";
+import { RetentionAlert } from "@/components/RetentionAlert";
 
 export const Route = createFileRoute("/")({
   component: Index,
