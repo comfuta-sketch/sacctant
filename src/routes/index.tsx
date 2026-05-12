@@ -221,7 +221,7 @@ function Index() {
                 Área do Cliente
               </Link>
             )}
-            <DeclaracaoFormDialog
+            <IrpfWizardDialog
               trigger={
                 <button
                   type="button"
@@ -253,7 +253,7 @@ function Index() {
               proteção e precisão.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <DeclaracaoFormDialog
+              <IrpfWizardDialog
                 trigger={
                   <button
                     type="button"
