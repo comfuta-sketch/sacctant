@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       clientes: {
         Row: {
+          aceita_contrato: boolean
           agencia: string | null
           bairro: string | null
           banco: string | null
@@ -23,6 +24,8 @@ export type Database = {
           conta_ou_pix: string | null
           cpf: string
           created_at: string
+          dados_completos: Json
+          data_nascimento: string | null
           documentos_marcados: Json | null
           email: string
           id: string
@@ -30,6 +33,7 @@ export type Database = {
           nome: string
           numero: string | null
           observacoes: string | null
+          ocupacao: string | null
           status: Database["public"]["Enums"]["status_servico"]
           telefone: string
           titulo_eleitor: string | null
@@ -37,6 +41,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          aceita_contrato?: boolean
           agencia?: string | null
           bairro?: string | null
           banco?: string | null
@@ -44,6 +49,8 @@ export type Database = {
           conta_ou_pix?: string | null
           cpf: string
           created_at?: string
+          dados_completos?: Json
+          data_nascimento?: string | null
           documentos_marcados?: Json | null
           email: string
           id?: string
@@ -51,6 +58,7 @@ export type Database = {
           nome: string
           numero?: string | null
           observacoes?: string | null
+          ocupacao?: string | null
           status?: Database["public"]["Enums"]["status_servico"]
           telefone: string
           titulo_eleitor?: string | null
@@ -58,6 +66,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          aceita_contrato?: boolean
           agencia?: string | null
           bairro?: string | null
           banco?: string | null
@@ -65,6 +74,8 @@ export type Database = {
           conta_ou_pix?: string | null
           cpf?: string
           created_at?: string
+          dados_completos?: Json
+          data_nascimento?: string | null
           documentos_marcados?: Json | null
           email?: string
           id?: string
@@ -72,6 +83,7 @@ export type Database = {
           nome?: string
           numero?: string | null
           observacoes?: string | null
+          ocupacao?: string | null
           status?: Database["public"]["Enums"]["status_servico"]
           telefone?: string
           titulo_eleitor?: string | null
@@ -79,6 +91,56 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      contratos: {
+        Row: {
+          assinado_em: string | null
+          assinatura_base64: string | null
+          cliente_id: string
+          created_at: string
+          dados_preenchidos: Json
+          id: string
+          modelo_storage_path: string | null
+          status: string
+          titulo: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assinado_em?: string | null
+          assinatura_base64?: string | null
+          cliente_id: string
+          created_at?: string
+          dados_preenchidos?: Json
+          id?: string
+          modelo_storage_path?: string | null
+          status?: string
+          titulo: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assinado_em?: string | null
+          assinatura_base64?: string | null
+          cliente_id?: string
+          created_at?: string
+          dados_preenchidos?: Json
+          id?: string
+          modelo_storage_path?: string | null
+          status?: string
+          titulo?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contratos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       documentos: {
         Row: {
@@ -129,6 +191,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          consentimento_lgpd_em: string | null
           cpf: string | null
           created_at: string
           email: string | null
@@ -137,6 +200,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          consentimento_lgpd_em?: string | null
           cpf?: string | null
           created_at?: string
           email?: string | null
@@ -145,11 +209,48 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          consentimento_lgpd_em?: string | null
           cpf?: string | null
           created_at?: string
           email?: string | null
           id?: string
           nome?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tutoriais: {
+        Row: {
+          categoria: string | null
+          conteudo: string | null
+          created_at: string
+          descricao: string | null
+          id: string
+          ordem: number
+          publicado: boolean
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          categoria?: string | null
+          conteudo?: string | null
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          categoria?: string | null
+          conteudo?: string | null
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          ordem?: number
+          publicado?: boolean
+          titulo?: string
           updated_at?: string
         }
         Relationships: []

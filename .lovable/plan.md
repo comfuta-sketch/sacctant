@@ -1,77 +1,114 @@
+# Plano S.ACCTANT — Evolução completa
 
-## O que vai mudar
+Trabalho extenso, dividido em 5 frentes. Implementação incremental sem quebrar o fluxo atual.
 
-Hoje o cliente cadastra-se só com CPF + senha e o e-mail real só aparece depois, no formulário de IRPF. Vamos mover o e-mail para o cadastro e adicionar verificação por código, melhorar a UX da senha e criar um fluxo de recuperação seguro.
+## 1. Ajustes globais (rápidos)
 
-## 1. Cadastro de Cliente (aba Cliente em `/auth`)
+- **Remover "Título de Eleitor"**: tirar do `DeclaracaoFormDialog.tsx`, do schema Zod, do payload do insert e da mensagem do WhatsApp. Manter coluna `titulo_eleitor` no banco por compatibilidade (apenas parar de gravar).
+- **E-mail de contato**: substituir todas as ocorrências de `marcos@sacctant.com.br` por `s.acctant@gmail.com` (busca global).
+- **Componente `LgpdNotice`**: rodapé reutilizável ("Seus dados estão protegidos e são tratados estritamente de acordo com a LGPD…"). Inserir em todos os formulários (auth, recuperar, redefinir, wizard IRPF, contato).
 
-Novos campos no formulário **Cadastro**:
-- Nome completo (já existe)
-- CPF (já existe)
-- **E-mail real** (novo, obrigatório, validado com Zod)
-- **Senha** com botão de olho 👁 para mostrar/ocultar
-- **Confirmar senha** com botão de olho — precisa bater com a senha
+## 2. Wizard IRPF (substitui o `DeclaracaoFormDialog` atual)
 
-Fluxo:
-1. Usuário preenche e clica em **Criar conta**.
-2. Chamamos `supabase.auth.signUp` com o **e-mail real** (não mais `cpf@cliente.sacctant.app`), guardando CPF e nome em `user_metadata`. O trigger `handle_new_user` continua criando o `profiles` e o `user_roles` normalmente — só precisa salvar o e-mail real (já faz).
-3. A tela troca para **"Confirme seu e-mail"**: input de 6 dígitos (componente `InputOTP` já existe) + botão "Reenviar código".
-4. Verificamos com `supabase.auth.verifyOtp({ email, token, type: 'signup' })`. Sucesso → redireciona para `/cliente`.
-
-> Observação importante: como o cliente passa a se cadastrar com e-mail real, o **login** também muda — o cliente digita **CPF + senha**, mas internamente buscamos o e-mail real pelo CPF (consulta na tabela `profiles` via uma server function pública/limitada) e fazemos `signInWithPassword` com esse e-mail. Isso preserva a UX "login por CPF".
-
-## 2. Login (aba Cliente)
-
-- Adicionar botão de olho no campo senha.
-- Trocar o `cpfToInternalEmail` por uma chamada que resolve `cpf → email` no servidor (server function `resolveClientEmailByCpf`, sem expor outros dados).
-- Mensagens de erro amigáveis quando o e-mail ainda não foi confirmado ("Verifique seu e-mail antes de entrar — clique aqui para reenviar o código").
-
-## 3. Esqueci minha senha
-
-Novo link **"Esqueci minha senha"** abaixo do botão Entrar (aba Cliente).
-
-Tela `/auth/recuperar`:
-1. Pede **CPF + e-mail**.
-2. Server function valida que **os dois batem** com o mesmo `profiles`. Sem vazar se um existe sem o outro (sempre responde "se os dados conferirem, enviaremos um link").
-3. Se baterem, dispara `supabase.auth.resetPasswordForEmail(email, { redirectTo: <origin>/auth/redefinir })`.
-
-Tela `/auth/redefinir`:
-- Lê o token recovery do hash da URL.
-- Dois campos: nova senha + confirmar nova senha (ambos com olho).
-- `supabase.auth.updateUser({ password })` → redireciona para `/cliente`.
-
-## 4. Configuração de auth
-
-- **Não** ativar auto-confirm — o ponto é justamente exigir o código.
-- Usar remetente padrão do Lovable (escolha do usuário).
-- HIBP (proteção contra senhas vazadas): manter desativado salvo pedido futuro.
-
-## 5. Componentes/arquivos afetados
+Novo componente `IrpfWizard` em `src/components/irpf/` com 6 etapas + `<Progress>` no topo + navegação Voltar/Avançar + autosave em `localStorage` (chave por user_id).
 
 ```text
-src/routes/auth.tsx                  edit  (campos novos, etapa OTP, olho na senha, link "esqueci")
-src/routes/auth.recuperar.tsx        new   (CPF + e-mail → envia link)
-src/routes/auth.redefinir.tsx        new   (define nova senha após link)
-src/components/PasswordInput.tsx     new   (input com botão de olho, reutilizável)
-src/lib/auth-helpers.ts              edit  (remover dependência de cpf→email fake)
-src/lib/auth.functions.ts            new   (server fns: resolveClientEmailByCpf, verifyCpfEmailMatch)
+[Passo 1] Dados Pessoais → [Passo 2] Rendimentos → [Passo 3] Bens/Dívidas
+   → [Passo 4] Rural/Exterior → [Passo 5] Upload → [Passo 6] Resumo+Contrato
 ```
 
-A estrutura de rota usa o padrão flat do TanStack: `auth.recuperar.tsx` e `auth.redefinir.tsx` (irmãs de `auth.tsx`, sem layout pai com Outlet — `auth.tsx` continua independente).
+- **Passo 1**: nome, CPF, data de nascimento, ocupação, endereço, telefone, e-mail. Banco/agência/PIX **opcional**.
+- **Passo 2**: lista dinâmica (add/remover linhas) de "Informes de Rendimentos" (fonte pagadora, valor) e "Despesas dedutíveis" (categoria: saúde/educação/previdência, descrição, valor).
+- **Passo 3**: lista dinâmica de "Bens" (tipo, descrição, valor 31/12) e "Dívidas/Ônus" (credor, valor).
+- **Passo 4**: dois blocos colapsáveis — Atividade Rural (receita bruta, despesas, UF) e Exterior (país, tipo de rendimento, valor em moeda).
+- **Passo 5**: dropzone (drag-and-drop nativo HTML5) com lista de arquivos, remover, tamanho, tipo. PDF/JPG/PNG até 10MB.
+- **Passo 6**: resumo em cards + nota de honorários + checkbox opcional "Desejo formalizar o contrato de prestação de serviço agora" + botão "Enviar declaração" + LGPD notice.
 
-## 6. Estética
+**Persistência**: tudo serializado num campo `dados_completos JSONB` em `clientes` (nova coluna). Documentos continuam em `documentos` + Storage.
 
-Mantém o design atual: cards brancos, bordas finas, foco azul-marinho. O botão de olho usa `lucide-react` (`Eye` / `EyeOff`) dentro do input, posicionado à direita, mesma altura do campo. O input OTP usa o componente shadcn `InputOTP` já presente no projeto.
+**Substituição**: o botão CTA da landing abre o `IrpfWizard` em vez do dialog antigo. O dialog antigo fica deprecated (pode ser removido depois).
 
-## 7. Detalhes técnicos
+## 3. Área do Cliente — novas seções
 
-- **Validação Zod** em todos os formulários (e-mail válido, senha ≥ 8 caracteres com letra+número, confirmação igual).
-- **Server function `resolveClientEmailByCpf(cpf)`** usa `supabaseAdmin` (service role) e retorna `{ email }` ou `null`. Nunca expõe outros campos. Rate-limit básico via verificação de CPF válido antes de consultar.
-- **Server function `verifyCpfEmailMatch(cpf, email)`** retorna `boolean` sem revelar qual dos dois falhou.
-- Migrações: nenhuma — schema atual já suporta (e-mail real cabe em `profiles.email` e `auth.users.email`).
-- Clientes **antigos** (cadastrados antes desta mudança) com e-mail interno `@cliente.sacctant.app`: continuam funcionando porque o login passa a resolver pelo `profiles.email`. Para esses, o `profiles.email` é o interno — uma nota "Atualize seu e-mail" pode aparecer em `/cliente`, mas isso fica para outra entrega se você quiser.
+Reorganizar `/cliente` com abas (Tabs do shadcn): **Minhas Declarações** (atual) | **Tutoriais** | **Contratos**.
 
-## Fora do escopo (confirmado)
+- **Tutoriais** (`/cliente?tab=tutoriais`): grid de cards consumindo nova tabela `tutoriais` (título, descrição, conteúdo markdown, categoria, ordem, publicado). Estrutura pronta — admin alimenta via painel depois. Por ora, exibir cards a partir do banco; vazio mostra estado "em breve".
+- **Contratos** (`/cliente?tab=contratos`): nova tabela `contratos` (cliente_id, titulo, modelo_storage_path, status: pendente/assinado, dados_preenchidos JSONB, assinatura_base64, assinado_em). Cliente preenche campos do modelo + assina via canvas (`react-signature-canvas` ou implementação nativa simples). Admin anexa modelos.
+- **Barreira LGPD**: componente `ConsentimentoLGPD` (Dialog modal não-fechável) que bloqueia `/cliente` e `/admin` até o usuário marcar 2 checkboxes (Termos + Privacidade) e clicar "Aceito". Salva em `profiles.consentimento_lgpd_em` (timestamp). Se null → mostra modal.
 
-- SMS / validação por celular (precisaria Twilio).
-- Configuração de domínio próprio para os e-mails (você escolheu manter o remetente padrão por enquanto).
+## 4. Painel Admin
+
+Hoje é stub. Implementar de verdade:
+
+- **Kanban** (`/admin`): 3 colunas (Aguardando documentos | Em análise | Concluído). Cards arrastáveis (`@dnd-kit/core` — leve). Drag muda `status` do cliente via update. RLS já permite admin update.
+- **Drawer de detalhes**: ao clicar num card, abre `Sheet` lateral com todos os dados (`dados_completos`), lista de documentos (download via signed URL), botões para mudar status, anexar contrato modelo, enviar documento de retorno.
+- **Aba Tutoriais (admin)**: CRUD básico de `tutoriais`.
+
+## 5. UI / Gatilhos mentais
+
+- **Aviso de retenção** na home (`/`): banner amarelo suave (`bg-amber-50 border-amber-300 text-amber-900`) com ícone de alerta, antes do CTA de "Enviar Dados". Texto exato pedido. CTA "Criar conta" ao lado.
+
+## Mudanças no banco (1 migração)
+
+```sql
+-- Coluna para wizard completo
+ALTER TABLE public.clientes
+  ADD COLUMN dados_completos JSONB DEFAULT '{}'::jsonb,
+  ADD COLUMN data_nascimento DATE,
+  ADD COLUMN ocupacao TEXT,
+  ADD COLUMN aceita_contrato BOOLEAN DEFAULT false;
+
+-- Consentimento LGPD
+ALTER TABLE public.profiles
+  ADD COLUMN consentimento_lgpd_em TIMESTAMPTZ;
+
+-- Tabela tutoriais
+CREATE TABLE public.tutoriais (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  titulo TEXT NOT NULL,
+  descricao TEXT,
+  conteudo TEXT,           -- markdown
+  categoria TEXT,
+  ordem INT DEFAULT 0,
+  publicado BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+-- RLS: leitura pública dos publicados; admin gerencia tudo.
+
+-- Tabela contratos
+CREATE TABLE public.contratos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  cliente_id UUID NOT NULL REFERENCES public.clientes(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL,
+  titulo TEXT NOT NULL,
+  modelo_storage_path TEXT,
+  dados_preenchidos JSONB DEFAULT '{}'::jsonb,
+  assinatura_base64 TEXT,
+  status TEXT NOT NULL DEFAULT 'pendente',  -- pendente | assinado
+  assinado_em TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+-- RLS: cliente vê/atualiza seus contratos; admin gerencia tudo.
+```
+
+## Ordem de execução
+
+1. Migração do banco
+2. Componentes utilitários (`LgpdNotice`, `ConsentimentoLGPD`, banner home)
+3. Ajustes globais (remover título eleitor, trocar e-mail)
+4. Wizard IRPF (substitui dialog na home)
+5. Área do Cliente com abas + Tutoriais + Contratos
+6. Painel Admin Kanban + Drawer
+7. QA: build + testes manuais nas rotas
+
+## Escopo não incluído (próximas fases)
+
+- Editor rico de tutoriais para admin (será textarea markdown simples)
+- Geração de PDF do contrato assinado (somente assinatura digital + JSON; PDF fica para depois)
+- Pagamento integrado por cartão 3x — manteremos link Asaas atual; texto de honorários é apenas informativo
+
+## Pergunta antes de começar
+
+Confirma que posso seguir com **tudo isso de uma vez**? É bastante código (≈15-20 arquivos novos/editados, 1 migração). Se preferir, posso entregar em fases — sugiro começar pelas frentes 1 + 5 (rápidas) + frente 2 (Wizard, a mais impactante para o cliente final), e fazer 3 e 4 numa segunda rodada.

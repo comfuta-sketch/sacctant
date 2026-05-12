@@ -19,10 +19,9 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
-import {
-  DeclaracaoFormDialog,
-  whatsappUrl,
-} from "@/components/DeclaracaoFormDialog";
+import { IrpfWizardDialog } from "@/components/irpf/IrpfWizardDialog";
+import { WHATSAPP_URL as whatsappUrl } from "@/lib/auth-helpers";
+import { RetentionAlert } from "@/components/RetentionAlert";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -222,7 +221,7 @@ function Index() {
                 Área do Cliente
               </Link>
             )}
-            <DeclaracaoFormDialog
+            <IrpfWizardDialog
               trigger={
                 <button
                   type="button"
@@ -254,7 +253,7 @@ function Index() {
               proteção e precisão.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <DeclaracaoFormDialog
+              <IrpfWizardDialog
                 trigger={
                   <button
                     type="button"
