@@ -69,17 +69,19 @@ export function ContratoCliente({ contrato, onChange }: Props) {
   const salvar = async (assinar: boolean) => {
     setSaving(true); setError(null);
     try {
-      const payload: Record<string, unknown> = {
-        dados_preenchidos: { campo1, campo2 },
-      };
+      let sig: string | null = null;
       if (assinar) {
-        const sig = canvasRef.current?.toDataURL("image/png");
+        sig = canvasRef.current?.toDataURL("image/png") ?? null;
         if (!sig || !hasDrawing) { setError("Assine no campo abaixo antes."); setSaving(false); return; }
-        payload.assinatura_base64 = sig;
-        payload.assinado_em = new Date().toISOString();
-        payload.status = "assinado";
       }
-      const { error } = await supabase.from("contratos").update(payload).eq("id", contrato.id);
+      const { error } = await supabase.from("contratos").update({
+        dados_preenchidos: { campo1, campo2 },
+        ...(assinar ? {
+          assinatura_base64: sig,
+          assinado_em: new Date().toISOString(),
+          status: "assinado",
+        } : {}),
+      }).eq("id", contrato.id);
       if (error) throw error;
       onChange();
     } catch (err) { setError(err instanceof Error ? err.message : "Erro ao salvar."); }
