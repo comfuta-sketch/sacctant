@@ -19,9 +19,10 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
-import { IrpfWizardDialog } from "@/components/irpf/IrpfWizardDialog";
+import { StartChannelDialog } from "@/components/StartChannelDialog";
 import { WHATSAPP_URL as whatsappUrl } from "@/lib/auth-helpers";
 import { RetentionAlert } from "@/components/RetentionAlert";
+import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/")({
   component: Index,
