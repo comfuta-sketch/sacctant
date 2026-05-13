@@ -564,7 +564,7 @@ function Index() {
               <ul className="mt-4 space-y-3 text-sm text-graphite">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-navy" />
-                  <span>marcos@sacctant.com.br</span>
+                  <span>s.acctant@gmail.com</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-navy" />
