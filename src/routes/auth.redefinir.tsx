@@ -170,6 +170,7 @@ function RedefinirPage() {
               </button>
             </form>
           )}
+          <div className="mt-8"><LgpdNotice /></div>
         </div>
       </main>
     </div>
