@@ -596,7 +596,10 @@ function Index() {
             </div>
           </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
+          <div className="mt-10 border-t border-border pt-6">
+            <LgpdNotice />
+          </div>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
             <p>© {new Date().getFullYear()} S.ACCTANT — Todos os direitos reservados.</p>
             <p>CRC ativo • LGPD compliant</p>
           </div>
