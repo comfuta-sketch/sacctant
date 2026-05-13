@@ -149,7 +149,6 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
         "— Dados pessoais —",
         `Nome: ${data.nome}`,
         `CPF: ${data.cpf}`,
-        `Título de Eleitor: ${data.titulo}`,
         `E-mail: ${data.email}`,
         `Telefone: ${data.telefone}`,
         "",
