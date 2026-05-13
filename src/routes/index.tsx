@@ -253,8 +253,9 @@ function Index() {
               Consultoria para MEI. Deixe a burocracia com quem entende de
               proteção e precisão.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <IrpfWizardDialog
+            <div className="mt-8 max-w-2xl"><RetentionAlert /></div>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <StartChannelDialog
                 trigger={
                   <button
                     type="button"
