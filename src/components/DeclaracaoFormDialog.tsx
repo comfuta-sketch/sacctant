@@ -105,7 +105,6 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
           user_id: user.id,
           nome: data.nome,
           cpf: onlyDigits(data.cpf),
-          titulo_eleitor: data.titulo,
           email: data.email,
           telefone: data.telefone,
           logradouro: data.logradouro,
