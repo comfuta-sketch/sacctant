@@ -275,14 +275,9 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
                 <Field label="Nome completo *" error={errors.nome?.message}>
                   <input {...register("nome")} className={inputCls} autoComplete="name" />
                 </Field>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="CPF *" error={errors.cpf?.message}>
-                    <input {...register("cpf")} placeholder="000.000.000-00" inputMode="numeric" className={inputCls} />
-                  </Field>
-                  <Field label="Título de Eleitor *" error={errors.titulo?.message}>
-                    <input {...register("titulo")} inputMode="numeric" className={inputCls} />
-                  </Field>
-                </div>
+                <Field label="CPF *" error={errors.cpf?.message}>
+                  <input {...register("cpf")} placeholder="000.000.000-00" inputMode="numeric" className={inputCls} />
+                </Field>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="E-mail *" error={errors.email?.message}>
                     <input {...register("email")} type="email" autoComplete="email" className={inputCls} />
