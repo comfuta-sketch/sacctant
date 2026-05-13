@@ -482,6 +482,7 @@ function AuthPage() {
               </p>
             </>
           )}
+          <div className="mt-8"><LgpdNotice /></div>
         </div>
       </main>
     </div>
