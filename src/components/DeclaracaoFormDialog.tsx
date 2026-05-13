@@ -39,7 +39,6 @@ export { WHATSAPP_URL as whatsappUrl };
 const schema = z.object({
   nome: z.string().trim().min(3, "Informe seu nome completo").max(120),
   cpf: z.string().trim().refine(isValidCPF, "CPF inválido"),
-  titulo: z.string().trim().min(10, "Mínimo 10 dígitos").max(14),
   email: z.string().trim().email("E-mail inválido").max(255),
   telefone: z.string().trim().min(10, "Telefone inválido (com DDD)").max(20),
   logradouro: z.string().trim().min(3, "Informe o logradouro").max(160),
