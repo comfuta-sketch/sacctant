@@ -8,6 +8,7 @@ import { formatCPF, isValidCPF, onlyDigits } from "@/lib/auth-helpers";
 import { PasswordInput } from "@/components/PasswordInput";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { resolveClientEmailByCpf } from "@/lib/auth.functions";
+import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({
