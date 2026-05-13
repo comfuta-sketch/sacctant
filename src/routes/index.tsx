@@ -222,7 +222,7 @@ function Index() {
                 Área do Cliente
               </Link>
             )}
-            <IrpfWizardDialog
+            <StartChannelDialog
               trigger={
                 <button
                   type="button"
