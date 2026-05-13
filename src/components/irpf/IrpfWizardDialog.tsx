@@ -635,12 +635,13 @@ function Step6({ data, update, fileCount }: { data: WizardData; update: <K exten
         <strong> 3x no cartão de crédito</strong>, se necessário.
       </div>
 
-      <label className="flex items-start gap-3 rounded-lg border border-border bg-background p-3 cursor-pointer">
+      <label className="flex items-start gap-3 rounded-lg border border-dashed border-border bg-soft-gray/30 p-3 cursor-pointer">
         <input type="checkbox" checked={data.aceitaContrato}
           onChange={(e) => update("aceitaContrato", e.target.checked)}
           className="mt-0.5 h-4 w-4 accent-navy" />
         <span className="text-sm text-navy-deep">
-          Desejo formalizar o <strong>contrato de prestação de serviço</strong> agora.
+          <strong>Opcional:</strong> gerar <strong>contrato de prestação de serviço</strong> à parte.
+          Você poderá assiná-lo depois na sua Área do Cliente.
         </span>
       </label>
 
