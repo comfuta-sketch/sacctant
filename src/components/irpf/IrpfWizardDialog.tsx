@@ -590,8 +590,21 @@ function Step5({ files, setFiles }: { files: File[]; setFiles: React.Dispatch<Re
               <span className="truncate text-navy-deep">
                 {f.name} <span className="text-xs text-muted-foreground">({(f.size / 1024).toFixed(0)} KB)</span>
               </span>
-              <button type="button" onClick={() => setFiles((arr) => arr.filter((_, idx) => idx !== i))}
-                className="text-muted-foreground hover:text-red-600"><X className="h-4 w-4" /></button>
+              <div className="flex items-center gap-2 shrink-0">
+                <label className="cursor-pointer text-xs font-medium text-navy hover:underline">
+                  Trocar
+                  <input type="file" className="sr-only" onChange={(e) => {
+                    const f2 = e.target.files?.[0];
+                    if (!f2) return;
+                    setFiles((arr) => arr.map((it, idx) => idx === i ? f2 : it));
+                    e.target.value = "";
+                  }} />
+                </label>
+                <button type="button" onClick={() => setFiles((arr) => arr.filter((_, idx) => idx !== i))}
+                  className="text-muted-foreground hover:text-red-600" aria-label="Remover">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -622,12 +635,13 @@ function Step6({ data, update, fileCount }: { data: WizardData; update: <K exten
         <strong> 3x no cartão de crédito</strong>, se necessário.
       </div>
 
-      <label className="flex items-start gap-3 rounded-lg border border-border bg-background p-3 cursor-pointer">
+      <label className="flex items-start gap-3 rounded-lg border border-dashed border-border bg-soft-gray/30 p-3 cursor-pointer">
         <input type="checkbox" checked={data.aceitaContrato}
           onChange={(e) => update("aceitaContrato", e.target.checked)}
           className="mt-0.5 h-4 w-4 accent-navy" />
         <span className="text-sm text-navy-deep">
-          Desejo formalizar o <strong>contrato de prestação de serviço</strong> agora.
+          <strong>Opcional:</strong> gerar <strong>contrato de prestação de serviço</strong> à parte.
+          Você poderá assiná-lo depois na sua Área do Cliente.
         </span>
       </label>
 

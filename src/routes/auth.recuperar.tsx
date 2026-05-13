@@ -6,6 +6,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { formatCPF, isValidCPF, onlyDigits } from "@/lib/auth-helpers";
 import { verifyCpfEmailMatch } from "@/lib/auth.functions";
+import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/auth/recuperar")({
   component: RecuperarPage,
@@ -150,6 +151,7 @@ function RecuperarPage() {
               </button>
             </form>
           )}
+          <div className="mt-8"><LgpdNotice /></div>
         </div>
       </main>
     </div>

@@ -4,6 +4,7 @@ import { Calculator, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { PasswordInput } from "@/components/PasswordInput";
+import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/auth/redefinir")({
   component: RedefinirPage,
@@ -169,6 +170,7 @@ function RedefinirPage() {
               </button>
             </form>
           )}
+          <div className="mt-8"><LgpdNotice /></div>
         </div>
       </main>
     </div>

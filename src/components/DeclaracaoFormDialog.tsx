@@ -39,7 +39,6 @@ export { WHATSAPP_URL as whatsappUrl };
 const schema = z.object({
   nome: z.string().trim().min(3, "Informe seu nome completo").max(120),
   cpf: z.string().trim().refine(isValidCPF, "CPF inválido"),
-  titulo: z.string().trim().min(10, "Mínimo 10 dígitos").max(14),
   email: z.string().trim().email("E-mail inválido").max(255),
   telefone: z.string().trim().min(10, "Telefone inválido (com DDD)").max(20),
   logradouro: z.string().trim().min(3, "Informe o logradouro").max(160),
@@ -106,7 +105,6 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
           user_id: user.id,
           nome: data.nome,
           cpf: onlyDigits(data.cpf),
-          titulo_eleitor: data.titulo,
           email: data.email,
           telefone: data.telefone,
           logradouro: data.logradouro,
@@ -151,7 +149,6 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
         "— Dados pessoais —",
         `Nome: ${data.nome}`,
         `CPF: ${data.cpf}`,
-        `Título de Eleitor: ${data.titulo}`,
         `E-mail: ${data.email}`,
         `Telefone: ${data.telefone}`,
         "",
@@ -278,14 +275,9 @@ export function DeclaracaoFormDialog({ trigger }: Props) {
                 <Field label="Nome completo *" error={errors.nome?.message}>
                   <input {...register("nome")} className={inputCls} autoComplete="name" />
                 </Field>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="CPF *" error={errors.cpf?.message}>
-                    <input {...register("cpf")} placeholder="000.000.000-00" inputMode="numeric" className={inputCls} />
-                  </Field>
-                  <Field label="Título de Eleitor *" error={errors.titulo?.message}>
-                    <input {...register("titulo")} inputMode="numeric" className={inputCls} />
-                  </Field>
-                </div>
+                <Field label="CPF *" error={errors.cpf?.message}>
+                  <input {...register("cpf")} placeholder="000.000.000-00" inputMode="numeric" className={inputCls} />
+                </Field>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="E-mail *" error={errors.email?.message}>
                     <input {...register("email")} type="email" autoComplete="email" className={inputCls} />

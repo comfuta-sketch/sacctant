@@ -19,9 +19,10 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
-import { IrpfWizardDialog } from "@/components/irpf/IrpfWizardDialog";
+import { StartChannelDialog } from "@/components/StartChannelDialog";
 import { WHATSAPP_URL as whatsappUrl } from "@/lib/auth-helpers";
 import { RetentionAlert } from "@/components/RetentionAlert";
+import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -221,7 +222,7 @@ function Index() {
                 Área do Cliente
               </Link>
             )}
-            <IrpfWizardDialog
+            <StartChannelDialog
               trigger={
                 <button
                   type="button"
@@ -252,8 +253,9 @@ function Index() {
               Consultoria para MEI. Deixe a burocracia com quem entende de
               proteção e precisão.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <IrpfWizardDialog
+            <div className="mt-8 max-w-2xl"><RetentionAlert /></div>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <StartChannelDialog
                 trigger={
                   <button
                     type="button"
@@ -562,7 +564,7 @@ function Index() {
               <ul className="mt-4 space-y-3 text-sm text-graphite">
                 <li className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-navy" />
-                  <span>marcos@sacctant.com.br</span>
+                  <span>s.acctant@gmail.com</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-navy" />
@@ -594,7 +596,10 @@ function Index() {
             </div>
           </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
+          <div className="mt-10 border-t border-border pt-6">
+            <LgpdNotice />
+          </div>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
             <p>© {new Date().getFullYear()} S.ACCTANT — Todos os direitos reservados.</p>
             <p>CRC ativo • LGPD compliant</p>
           </div>
