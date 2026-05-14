@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowRight, Check, MessageCircle } from "lucide-react";
 import { LgpdNotice } from "@/components/LgpdNotice";
-import { RetentionAlert } from "@/components/RetentionAlert";
 import {
   WHATSAPP_NUMBER,
   formatCPF,
@@ -25,6 +24,11 @@ export function QuickWhatsappDialog({ trigger }: Props) {
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [banco, setBanco] = useState("");
+  const [agencia, setAgencia] = useState("");
+  const [conta, setConta] = useState("");
+  const [pix, setPix] = useState("");
   const [observacoes, setObservacoes] = useState("");
   const [docs, setDocs] = useState<Record<string, boolean>>({});
   const [error, setError] = useState<string | null>(null);
@@ -34,12 +38,24 @@ export function QuickWhatsappDialog({ trigger }: Props) {
   const link = useMemo(() => {
     const possui = documentos.filter((d) => docs[d]);
     const faltam = documentos.filter((d) => !docs[d]);
+    const temBanco = banco || agencia || conta || pix;
     const msg = [
       "Olá! Quero iniciar minha declaração de IRPF (envio rápido via site).",
       "",
       `Nome: ${nome || "—"}`,
       `CPF: ${cpf || "—"}`,
       `Telefone: ${telefone || "—"}`,
+      `Endereço: ${endereco || "—"}`,
+      ...(temBanco
+        ? [
+            "",
+            "Dados bancários (opcional):",
+            `Banco: ${banco || "—"}`,
+            `Agência: ${agencia || "—"}`,
+            `Conta: ${conta || "—"}`,
+            `PIX: ${pix || "—"}`,
+          ]
+        : []),
       "",
       `Documentos que já tenho (${possui.length}):`,
       ...(possui.length ? possui.map((d) => `✓ ${d}`) : ["—"]),
@@ -49,13 +65,14 @@ export function QuickWhatsappDialog({ trigger }: Props) {
       ...(observacoes ? ["", `Observações: ${observacoes}`] : []),
     ].join("\n");
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  }, [nome, cpf, telefone, observacoes, docs]);
+  }, [nome, cpf, telefone, endereco, banco, agencia, conta, pix, observacoes, docs]);
 
   const validateAndOpen = (e: React.FormEvent) => {
     e.preventDefault();
     if (nome.trim().length < 3) return setError("Informe seu nome completo.");
     if (!isValidCPF(cpf)) return setError("CPF inválido.");
     if (telefone.replace(/\D/g, "").length < 10) return setError("Telefone inválido.");
+    if (endereco.trim().length < 5) return setError("Informe seu endereço completo.");
     setError(null);
     window.open(link, "_blank", "noopener,noreferrer");
   };
@@ -77,8 +94,6 @@ export function QuickWhatsappDialog({ trigger }: Props) {
             </p>
           </div>
 
-          <RetentionAlert />
-
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1.5 block text-xs font-medium text-graphite">Nome completo *</span>
@@ -94,6 +109,40 @@ export function QuickWhatsappDialog({ trigger }: Props) {
             <span className="mb-1.5 block text-xs font-medium text-graphite">Telefone (WhatsApp) *</span>
             <input value={telefone} onChange={(e) => setTelefone(e.target.value)} placeholder="(98) 90000-0000" className={inputCls} />
           </label>
+
+          <label className="block">
+            <span className="mb-1.5 block text-xs font-medium text-graphite">Endereço completo *</span>
+            <input
+              value={endereco}
+              onChange={(e) => setEndereco(e.target.value)}
+              placeholder="Rua, número, bairro, cidade/UF, CEP"
+              className={inputCls}
+            />
+          </label>
+
+          <fieldset className="rounded-lg border border-border p-4">
+            <legend className="px-2 text-xs font-semibold uppercase tracking-wider text-navy">
+              Dados bancários <span className="text-muted-foreground normal-case font-normal">(opcional — para restituição)</span>
+            </legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-graphite">Banco</span>
+                <input value={banco} onChange={(e) => setBanco(e.target.value)} className={inputCls} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-graphite">Agência</span>
+                <input value={agencia} onChange={(e) => setAgencia(e.target.value)} className={inputCls} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-graphite">Conta</span>
+                <input value={conta} onChange={(e) => setConta(e.target.value)} className={inputCls} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-graphite">Chave PIX</span>
+                <input value={pix} onChange={(e) => setPix(e.target.value)} className={inputCls} />
+              </label>
+            </div>
+          </fieldset>
 
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-navy">
