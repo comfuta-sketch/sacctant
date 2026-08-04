@@ -14,7 +14,7 @@ import { ContratoCliente } from "@/components/ContratoCliente";
 
 export const Route = createFileRoute("/cliente")({
   component: ClientePage,
-  head: () => ({ meta: [{ title: "Área do Cliente — S.ACCTANT" }] }),
+  head: () => ({ meta: [{ title: "Área do Cliente — MF Advisory" }] }),
 });
 
 type Cliente = {
@@ -71,7 +71,7 @@ function ClientePage() {
                 <Calculator className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="font-semibold tracking-tight text-navy-deep">
-                S.<span className="text-graphite">ACCTANT</span>
+                MF <span className="text-emerald">Advisory</span>
               </span>
             </Link>
             <button type="button" onClick={async () => { await signOut(); navigate({ to: "/" }); }}

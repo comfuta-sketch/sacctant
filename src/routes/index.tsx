@@ -27,11 +27,11 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "S.ACCTANT | Contabilidade Digital — IRPF, CPF e MEI" },
+      { title: "MF Advisory | Contabilidade Digital — IRPF, CPF e MEI" },
       {
         name: "description",
         content:
-          "S.ACCTANT — atendimento especializado em IRPF, regularização de CPF e consultoria MEI em São Luís/MA. 100% online, com segurança.",
+          "MF Advisory — atendimento especializado em IRPF, regularização de CPF e consultoria MEI em São Luís/MA. 100% online, com segurança.",
       },
     ],
   }),
@@ -193,7 +193,7 @@ function Index() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              S.<span className="text-graphite">ACCTANT</span>
+              MF <span className="text-emerald">Advisory</span>
             </span>
           </a>
           <nav className="hidden md:flex items-center gap-8 text-sm text-graphite">
@@ -549,7 +549,7 @@ function Index() {
                   <Calculator className="h-4 w-4 text-primary-foreground" />
                 </div>
                 <span className="font-semibold tracking-tight text-navy-deep">
-                  S.<span className="text-graphite">ACCTANT</span>
+                  MF <span className="text-emerald">Advisory</span>
                 </span>
               </div>
               <p className="mt-4 text-sm leading-relaxed text-graphite max-w-xs">
@@ -599,7 +599,7 @@ function Index() {
             <LgpdNotice />
           </div>
           <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} S.ACCTANT — Todos os direitos reservados.</p>
+            <p>© {new Date().getFullYear()} MF Advisory — Todos os direitos reservados.</p>
             <p>CRC ativo • LGPD compliant</p>
           </div>
         </div>
