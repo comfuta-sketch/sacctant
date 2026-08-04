@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -26,6 +27,11 @@ const ServicosRoute = ServicosRouteImport.update({
 const QuemSomosRoute = QuemSomosRouteImport.update({
   id: '/quem-somos',
   path: '/quem-somos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteRoute = ClienteRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
+  '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cliente'
+    | '/contato'
     | '/quem-somos'
     | '/servicos'
     | '/auth/recuperar'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cliente'
+    | '/contato'
     | '/quem-somos'
     | '/servicos'
     | '/auth/recuperar'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cliente'
+    | '/contato'
     | '/quem-somos'
     | '/servicos'
     | '/auth/recuperar'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRouteWithChildren
   ClienteRoute: typeof ClienteRoute
+  ContatoRoute: typeof ContatoRoute
   QuemSomosRoute: typeof QuemSomosRoute
   ServicosRoute: typeof ServicosRoute
 }
@@ -146,6 +159,13 @@ declare module '@tanstack/react-router' {
       path: '/quem-somos'
       fullPath: '/quem-somos'
       preLoaderRoute: typeof QuemSomosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente': {
@@ -210,6 +230,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRouteWithChildren,
   ClienteRoute: ClienteRoute,
+  ContatoRoute: ContatoRoute,
   QuemSomosRoute: QuemSomosRoute,
   ServicosRoute: ServicosRoute,
 }
