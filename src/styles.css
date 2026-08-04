@@ -64,6 +64,8 @@
   --color-navy-deep: var(--navy-deep);
   --color-graphite: var(--graphite);
   --color-soft-gray: var(--soft-gray);
+  --color-emerald: var(--emerald);
+  --color-emerald-deep: var(--emerald-deep);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
