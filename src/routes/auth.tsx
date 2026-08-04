@@ -17,10 +17,10 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
   head: () => ({
     meta: [
-      { title: "Acesso — S.ACCTANT" },
+      { title: "Acesso — MF Advisory" },
       {
         name: "description",
-        content: "Entre na Área do Cliente ou no painel admin da S.ACCTANT.",
+        content: "Entre na Área do Cliente ou no painel admin da MF Advisory.",
       },
     ],
   }),
@@ -253,7 +253,7 @@ function AuthPage() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              S.<span className="text-graphite">ACCTANT</span>
+              MF <span className="text-emerald">Advisory</span>
             </span>
           </Link>
           <Link to="/" className="text-sm text-graphite hover:text-navy">

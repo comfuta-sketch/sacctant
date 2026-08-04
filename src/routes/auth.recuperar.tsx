@@ -12,10 +12,10 @@ export const Route = createFileRoute("/auth/recuperar")({
   component: RecuperarPage,
   head: () => ({
     meta: [
-      { title: "Recuperar senha — S.ACCTANT" },
+      { title: "Recuperar senha — MF Advisory" },
       {
         name: "description",
-        content: "Recupere o acesso à sua Área do Cliente S.ACCTANT.",
+        content: "Recupere o acesso à sua Área do Cliente MF Advisory.",
       },
     ],
   }),
@@ -73,7 +73,7 @@ function RecuperarPage() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              S.<span className="text-graphite">ACCTANT</span>
+              MF <span className="text-emerald">Advisory</span>
             </span>
           </Link>
           <Link to="/auth" className="text-sm text-graphite hover:text-navy">

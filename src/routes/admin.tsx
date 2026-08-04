@@ -13,7 +13,7 @@ import { AdminTutoriais } from "@/components/AdminTutoriais";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
-  head: () => ({ meta: [{ title: "Admin — S.ACCTANT" }] }),
+  head: () => ({ meta: [{ title: "Admin — MF Advisory" }] }),
 });
 
 type Status = "aguardando_documentos" | "em_analise" | "concluido";
@@ -61,7 +61,7 @@ function AdminPage() {
                 <Calculator className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="font-semibold tracking-tight text-navy-deep">
-                S.<span className="text-graphite">ACCTANT</span> <span className="text-xs font-normal text-muted-foreground">/ Admin</span>
+                MF <span className="text-emerald">Advisory</span> <span className="text-xs font-normal text-muted-foreground">/ Admin</span>
               </span>
             </Link>
             <button onClick={async () => { await signOut(); navigate({ to: "/" }); }}

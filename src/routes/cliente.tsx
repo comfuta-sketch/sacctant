@@ -14,7 +14,7 @@ import { ContratoCliente } from "@/components/ContratoCliente";
 
 export const Route = createFileRoute("/cliente")({
   component: ClientePage,
-  head: () => ({ meta: [{ title: "Área do Cliente — S.ACCTANT" }] }),
+  head: () => ({ meta: [{ title: "Área do Cliente — MF Advisory" }] }),
 });
 
 type Cliente = {
@@ -71,7 +71,7 @@ function ClientePage() {
                 <Calculator className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="font-semibold tracking-tight text-navy-deep">
-                S.<span className="text-graphite">ACCTANT</span>
+                MF <span className="text-emerald">Advisory</span>
               </span>
             </Link>
             <button type="button" onClick={async () => { await signOut(); navigate({ to: "/" }); }}
@@ -82,15 +82,15 @@ function ClientePage() {
         </header>
 
         <main className="mx-auto max-w-5xl px-6 py-10">
-          <h1 className="text-2xl md:text-3xl font-bold text-navy-deep">Minha Área</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-navy-deep">Portal do Cliente</h1>
           <p className="mt-1 text-sm text-graphite">
-            Acompanhe declarações, acesse tutoriais e gerencie seus contratos.
+            Acompanhe seus atendimentos, documentos, materiais de apoio e contratos com a MF Advisory.
           </p>
 
           <Tabs defaultValue="declaracoes" className="mt-8">
             <TabsList className="grid w-full grid-cols-3 max-w-md">
-              <TabsTrigger value="declaracoes"><FileText className="h-4 w-4 mr-1.5" />Declarações</TabsTrigger>
-              <TabsTrigger value="tutoriais"><BookOpen className="h-4 w-4 mr-1.5" />Tutoriais</TabsTrigger>
+              <TabsTrigger value="declaracoes"><FileText className="h-4 w-4 mr-1.5" />Atendimentos</TabsTrigger>
+              <TabsTrigger value="tutoriais"><BookOpen className="h-4 w-4 mr-1.5" />Conhecimento</TabsTrigger>
               <TabsTrigger value="contratos"><FileSignature className="h-4 w-4 mr-1.5" />Contratos</TabsTrigger>
             </TabsList>
 

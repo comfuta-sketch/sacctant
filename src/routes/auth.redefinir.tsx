@@ -10,10 +10,10 @@ export const Route = createFileRoute("/auth/redefinir")({
   component: RedefinirPage,
   head: () => ({
     meta: [
-      { title: "Redefinir senha — S.ACCTANT" },
+      { title: "Redefinir senha — MF Advisory" },
       {
         name: "description",
-        content: "Defina uma nova senha para sua conta S.ACCTANT.",
+        content: "Defina uma nova senha para sua conta MF Advisory.",
       },
     ],
   }),
@@ -93,7 +93,7 @@ function RedefinirPage() {
               <Calculator className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-semibold tracking-tight text-navy-deep">
-              S.<span className="text-graphite">ACCTANT</span>
+              MF <span className="text-emerald">Advisory</span>
             </span>
           </Link>
         </div>

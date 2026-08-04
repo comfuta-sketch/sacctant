@@ -93,7 +93,7 @@ export function ConsentimentoLGPDGate({ children }: Props) {
               />
               <span className="text-sm text-navy-deep">
                 Li e concordo com os <strong>Termos de Uso</strong> da
-                plataforma S.ACCTANT.
+                plataforma MF Advisory.
               </span>
             </label>
             <label className="flex items-start gap-3 rounded-lg border border-border bg-soft-gray/40 p-3 cursor-pointer">
