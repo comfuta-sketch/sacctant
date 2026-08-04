@@ -73,10 +73,12 @@
   --radius: 0.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.25 0.02 260);
-  --navy: oklch(0.28 0.07 255);
-  --navy-deep: oklch(0.22 0.08 260);
-  --graphite: oklch(0.38 0.01 260);
-  --soft-gray: oklch(0.97 0.005 260);
+  --navy: oklch(0.36 0.055 220);
+  --navy-deep: oklch(0.26 0.05 222);
+  --emerald: oklch(0.62 0.12 165);
+  --emerald-deep: oklch(0.5 0.11 166);
+  --graphite: oklch(0.4 0.008 250);
+  --soft-gray: oklch(0.972 0.004 240);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
