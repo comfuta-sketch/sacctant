@@ -113,6 +113,12 @@
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
+  --navy: oklch(0.55 0.06 220);
+  --navy-deep: oklch(0.22 0.045 222);
+  --emerald: oklch(0.7 0.12 165);
+  --emerald-deep: oklch(0.55 0.11 166);
+  --graphite: oklch(0.75 0.01 240);
+  --soft-gray: oklch(0.24 0.02 240);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: oklch(0.984 0.003 247.858);
