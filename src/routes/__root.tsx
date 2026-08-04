@@ -72,16 +72,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MF Advisory | Contabilidade Digital e IRPF" },
-      { name: "description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "MF Advisory | Contabilidade Digital e IRPF" },
-      { property: "og:description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
+      { title: "MF Advisory | Inteligência para Decisões" },
+      { name: "description", content: "MF Advisory — consultoria contábil e estratégica: planejamento tributário, BPO financeiro, IRPF e assessoria empresarial em São Luís/MA." },
+      { name: "author", content: "MF Advisory" },
+      { property: "og:title", content: "MF Advisory | Inteligência para Decisões" },
+      { property: "og:description", content: "MF Advisory — consultoria contábil e estratégica: planejamento tributário, BPO financeiro, IRPF e assessoria empresarial em São Luís/MA." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "MF Advisory | Contabilidade Digital e IRPF" },
-      { name: "twitter:description", content: "Contabilidade estratégica e IRPF 2026 com segurança. Especialista em regularização fiscal, consultoria MEI e Reforma Tributária. Proteja seus dados e sua renda." },
+      { name: "twitter:title", content: "MF Advisory | Inteligência para Decisões" },
+      { name: "twitter:description", content: "MF Advisory — consultoria contábil e estratégica: planejamento tributário, BPO financeiro, IRPF e assessoria empresarial em São Luís/MA." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JvoMFThpIIZd6uanb50FUDm3W8f2/social-images/social-1778275936018-Gemini_Generated_Image_oi4am3oi4am3oi4a.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/JvoMFThpIIZd6uanb50FUDm3W8f2/social-images/social-1778275936018-Gemini_Generated_Image_oi4am3oi4am3oi4a.webp" },
     ],
@@ -100,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
