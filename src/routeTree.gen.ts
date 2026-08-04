@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRedefinirRouteImport } from './routes/auth.redefinir'
 import { Route as AuthRecuperarRouteImport } from './routes/auth.recuperar'
 
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuemSomosRoute = QuemSomosRouteImport.update({
   id: '/quem-somos',
   path: '/quem-somos',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/quem-somos': typeof QuemSomosRoute
+  '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/quem-somos': typeof QuemSomosRoute
+  '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/quem-somos': typeof QuemSomosRoute
+  '/servicos': typeof ServicosRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cliente'
     | '/quem-somos'
+    | '/servicos'
     | '/auth/recuperar'
     | '/auth/redefinir'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cliente'
     | '/quem-somos'
+    | '/servicos'
     | '/auth/recuperar'
     | '/auth/redefinir'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cliente'
     | '/quem-somos'
+    | '/servicos'
     | '/auth/recuperar'
     | '/auth/redefinir'
   fileRoutesById: FileRoutesById
@@ -117,10 +129,18 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   ClienteRoute: typeof ClienteRoute
   QuemSomosRoute: typeof QuemSomosRoute
+  ServicosRoute: typeof ServicosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quem-somos': {
       id: '/quem-somos'
       path: '/quem-somos'
@@ -191,6 +211,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   ClienteRoute: ClienteRoute,
   QuemSomosRoute: QuemSomosRoute,
+  ServicosRoute: ServicosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
