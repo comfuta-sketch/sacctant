@@ -31,19 +31,19 @@ function ContatoPage() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <section className="border-b border-border bg-soft-gray/40">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <p className="text-sm font-semibold uppercase tracking-wider text-emerald-deep">
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-40">
+          <p className="eyebrow">
             Contato
           </p>
-          <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-navy-deep md:text-5xl">
+          <h1 className="display-title mt-8 max-w-2xl text-3xl text-navy-deep md:text-5xl">
             Vamos conversar sobre a sua próxima decisão
           </h1>
         </div>
       </section>
 
       <section>
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-2 md:gap-24">
           <div className="space-y-4">
             {[
               { icon: Phone, label: "Telefone / WhatsApp", value: "(98) 98477-6989" },

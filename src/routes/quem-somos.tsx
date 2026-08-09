@@ -46,15 +46,15 @@ function QuemSomos() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <section className="border-b border-border bg-soft-gray/40">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
-          <p className="text-sm font-semibold uppercase tracking-wider text-emerald-deep">
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-40">
+          <p className="eyebrow">
             Quem somos
           </p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-navy-deep md:text-5xl">
+          <h1 className="display-title mt-8 max-w-3xl text-3xl text-navy-deep md:text-5xl">
             Consultoria que traduz números em direção
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite">
+          <p className="mt-10 max-w-2xl font-serif text-[17px] leading-[1.9] text-graphite">
             A MF Advisory nasce da evolução de uma prática contábil consolidada
             em conformidade fiscal para uma consultoria de gestão. Atuamos ao
             lado de empresários e profissionais liberais, unindo rigor técnico
@@ -64,35 +64,31 @@ function QuemSomos() {
       </section>
 
       <section>
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="grid gap-6 md:grid-cols-3">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+          <div className="grid gap-px bg-border md:grid-cols-3">
             {PILARES.map((p) => (
               <div
                 key={p.title}
-                className="rounded-2xl border border-border bg-background p-8"
+                className="bg-background p-10 transition-colors duration-500 hover:bg-soft-gray/40"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy/8 text-navy">
-                  <p.icon className="h-5 w-5" />
-                </span>
-                <h2 className="mt-6 text-lg font-semibold text-navy-deep">
+                <p.icon className="h-6 w-6 text-emerald" strokeWidth={1.15} />
+                <h2 className="mt-8 font-display text-sm font-semibold uppercase tracking-[0.14em] text-navy-deep">
                   {p.title}
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-graphite">
+                <p className="mt-4 text-sm leading-relaxed text-graphite">
                   {p.desc}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-16 grid gap-10 rounded-2xl border border-border bg-soft-gray/50 p-8 md:grid-cols-[auto_minmax(0,1fr)] md:p-12">
-            <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald/10 text-emerald-deep">
-              <Compass className="h-6 w-6" />
-            </span>
+          <div className="mt-24 grid gap-10 border border-border p-10 md:grid-cols-[auto_minmax(0,1fr)] md:p-16">
+            <Compass className="h-7 w-7 text-emerald" strokeWidth={1.15} />
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-navy-deep">
+              <h2 className="display-title text-xl text-navy-deep md:text-3xl">
                 Nosso método
               </h2>
-              <ol className="mt-6 space-y-5">
+              <ol className="mt-10 space-y-8">
                 {[
                   ["Diagnóstico", "Entendemos o momento do negócio, obrigações, margens e riscos."],
                   ["Estruturação", "Organizamos a contabilidade, o financeiro e o enquadramento tributário."],
@@ -100,11 +96,11 @@ function QuemSomos() {
                   ["Acompanhamento", "Indicadores e reuniões periódicas para sustentar as decisões."],
                 ].map(([t, d], i) => (
                   <li key={t} className="flex gap-4">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-xs font-bold text-primary-foreground">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-emerald/50 font-display text-[10px] font-semibold text-emerald">
                       {i + 1}
                     </span>
                     <div>
-                      <p className="text-sm font-semibold text-navy-deep">{t}</p>
+                      <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-navy-deep">{t}</p>
                       <p className="mt-1 text-sm text-graphite">{d}</p>
                     </div>
                   </li>
