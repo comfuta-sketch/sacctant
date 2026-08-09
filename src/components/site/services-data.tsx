@@ -19,7 +19,7 @@ export type ServiceItem = {
 export type ServiceCategory = {
   id: string;
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
   intro: string;
   items: ServiceItem[];
 };
@@ -123,32 +123,38 @@ export const HIGHLIGHT_ICONS = { BarChart3, Calculator, FileText };
 export function ServiceCategoryCard({ cat }: { cat: ServiceCategory }) {
   const Icon = cat.icon;
   return (
-    <div className="rounded-2xl border border-border bg-background p-7 transition-all hover:border-emerald/40 hover:shadow-sm">
-      <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald/10 text-emerald-deep">
-          <Icon className="h-5 w-5" />
-        </span>
-        <h3 className="text-lg font-semibold text-navy-deep">{cat.label}</h3>
+    <div className="group border border-border bg-background p-8 transition-colors duration-500 hover:border-emerald/40 md:p-10">
+      <div className="flex items-start gap-4">
+        <Icon className="h-6 w-6 shrink-0 text-emerald" strokeWidth={1.15} />
+        <h3 className="font-display text-base font-semibold uppercase tracking-[0.12em] text-navy-deep">
+          {cat.label}
+        </h3>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-graphite">{cat.intro}</p>
-      <ul className="mt-5 space-y-4 border-t border-border pt-5">
+      <p className="mt-5 font-serif text-[15px] leading-relaxed text-graphite">
+        {cat.intro}
+      </p>
+      <ul className="mt-8 space-y-6 border-t border-border pt-8">
         {cat.items.map((s) => (
           <li key={s.title}>
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="text-sm font-medium text-navy-deep">{s.title}</p>
+              <p className="text-sm font-medium tracking-wide text-navy-deep">
+                {s.title}
+              </p>
               {s.price && (
-                <span className="text-xs font-semibold text-emerald-deep">
+                <span className="font-display text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald">
                   {s.price}
                 </span>
               )}
             </div>
-            <p className="mt-1 text-sm text-graphite">{s.desc}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-graphite">
+              {s.desc}
+            </p>
           </li>
         ))}
       </ul>
       <Link
         to="/contato"
-        className="mt-6 inline-flex text-xs font-semibold text-navy hover:underline"
+        className="mt-10 inline-flex items-center gap-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-graphite transition-colors hover:text-emerald"
       >
         Solicitar proposta
       </Link>
