@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { Reveal } from "@/components/site/Reveal";
 import { StartChannelDialog } from "@/components/StartChannelDialog";
 import {
   SERVICE_CATEGORIES,
@@ -102,93 +103,94 @@ function Index() {
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28 md:pb-28">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-soft-gray px-3 py-1 text-xs font-medium text-graphite">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-deep" />
-              Consultoria contábil e estratégica • São Luís/MA
-            </span>
-            <h1 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-navy-deep md:text-6xl">
-              Inteligência para{" "}
-              <span className="text-emerald-deep">decisões</span>
+        <div className="mx-auto max-w-6xl px-6 pt-28 pb-32 md:pt-40 md:pb-44">
+          <Reveal className="max-w-4xl">
+            <p className="eyebrow">Consultoria contábil e estratégica • São Luís/MA</p>
+            <h1 className="display-title mt-10 text-[2.6rem] text-navy-deep sm:text-6xl md:text-[5rem]">
+              Inteligência
+              <span className="mt-2 block font-normal normal-case tracking-[-0.02em] text-emerald">
+                <span className="font-serif italic">para decisões</span>
+              </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphite md:text-xl">
+            <div className="hairline mt-14 max-w-md" />
+            <p className="mt-10 max-w-xl text-base leading-[1.9] text-graphite md:text-lg">
               A MF Advisory une contabilidade, planejamento tributário e gestão
               financeira para que cada decisão do seu negócio seja tomada com
               clareza, segurança e previsibilidade.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-14 flex flex-wrap items-center gap-4">
               <StartChannelDialog
                 trigger={
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-medium text-primary-foreground transition-all hover:gap-3 hover:bg-navy-deep"
-                  >
+                  <button type="button" className="btn-solid">
                     Iniciar atendimento
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>
                 }
               />
-              <Link
-                to="/servicos"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-base font-medium text-graphite transition-colors hover:border-emerald hover:text-emerald-deep"
-              >
+              <Link to="/servicos" className="btn-ghost">
                 Ver serviços
               </Link>
             </div>
+          </Reveal>
 
-            <dl className="mt-14 grid max-w-2xl gap-8 sm:grid-cols-3">
+          <Reveal delay={120}>
+            <dl className="mt-24 grid max-w-3xl border-t border-border sm:grid-cols-3">
               {[
                 ["+10 anos", "de prática contábil e fiscal"],
                 ["100% online", "documentos e assinatura digital"],
                 ["LGPD", "sigilo e proteção de dados"],
               ].map(([k, v]) => (
-                <div key={k}>
-                  <dt className="text-2xl font-bold text-navy-deep">{k}</dt>
-                  <dd className="mt-1 text-sm text-graphite">{v}</dd>
+                <div
+                  key={k}
+                  className="border-b border-border py-8 sm:border-b-0 sm:border-r sm:pr-8 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-8"
+                >
+                  <dt className="font-display text-xl font-semibold uppercase tracking-[0.08em] text-navy-deep">
+                    {k}
+                  </dt>
+                  <dd className="mt-2 text-sm text-graphite">{v}</dd>
                 </div>
               ))}
             </dl>
-          </div>
+          </Reveal>
         </div>
-        <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald/10 blur-3xl" />
+        <div className="pointer-events-none absolute -top-40 right-0 h-[32rem] w-[32rem] rounded-full bg-emerald/[0.06] blur-[120px]" />
       </section>
 
       {/* Aviso de retenção / prazos */}
       <section className="border-b border-border bg-background">
-        <div className="mx-auto max-w-6xl px-6 py-10">
-          <RetentionAlert />
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
+            <RetentionAlert />
+          </Reveal>
         </div>
       </section>
 
       {/* Diferenciais */}
-      <section id="diferenciais" className="border-b border-border bg-soft-gray/40">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-emerald-deep">
-              Diferenciais
-            </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-deep md:text-4xl">
-              Consultoria, não apenas conformidade
+      <section id="diferenciais" className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+          <Reveal className="max-w-2xl">
+            <p className="eyebrow">Diferenciais</p>
+            <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
+              Consultoria,
+              <span className="text-graphite"> não apenas conformidade</span>
             </h2>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {DIFERENCIAIS.map((d) => (
-              <div
+          </Reveal>
+          <div className="mt-20 grid border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+            {DIFERENCIAIS.map((d, i) => (
+              <Reveal
                 key={d.title}
-                className="rounded-xl border border-border bg-background p-7 transition-all hover:border-emerald/40 hover:shadow-sm"
+                delay={i * 90}
+                className="border-b border-border px-0 py-10 sm:px-8 sm:[&:not(:nth-child(1))]:border-l lg:py-14 sm:first:pl-0"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy/8 text-navy">
-                  <d.icon className="h-5 w-5" />
-                </span>
-                <h3 className="mt-6 text-base font-semibold text-navy-deep">
+                <d.icon className="h-6 w-6 text-emerald" strokeWidth={1.15} />
+                <h3 className="mt-8 font-display text-sm font-semibold uppercase tracking-[0.14em] text-navy-deep">
                   {d.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-graphite">
+                <p className="mt-4 text-sm leading-relaxed text-graphite">
                   {d.desc}
                 </p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -196,93 +198,89 @@ function Index() {
 
       {/* Institucional */}
       <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-2 md:gap-16">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-emerald-deep">
-              Quem somos
-            </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-deep md:text-4xl">
+        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:grid-cols-2 md:gap-24 md:py-36">
+          <Reveal>
+            <p className="eyebrow">Quem somos</p>
+            <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
               Uma advisory com raiz técnica contábil
             </h2>
-            <p className="mt-6 text-base leading-relaxed text-graphite">
+            <p className="mt-10 font-serif text-[17px] leading-[1.9] text-graphite">
               Atuamos com empresários, profissionais liberais e famílias que
               precisam de mais do que guias pagas em dia: precisam entender o
               impacto financeiro e tributário de cada movimento.
             </p>
             <Link
               to="/quem-somos"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-navy hover:gap-3 hover:underline"
+              className="mt-10 inline-flex items-center gap-3 font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-graphite transition-colors hover:text-emerald"
             >
-              Conhecer a MF Advisory <ArrowRight className="h-4 w-4" />
+              Conhecer a MF Advisory <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
             </Link>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2">
+          </Reveal>
+          <div className="grid sm:grid-cols-2">
             {[
               ["Missão", "Transformar informação contábil em inteligência aplicada às decisões."],
               ["Visão", "Ser referência no Maranhão em consultoria contábil estratégica."],
               ["Valores", "Ética, sigilo, precisão técnica e transparência nos honorários."],
               ["Método", "Diagnóstico, estruturação, estratégia e acompanhamento."],
-            ].map(([t, d]) => (
-              <div
+            ].map(([t, d], i) => (
+              <Reveal
                 key={t}
-                className="rounded-xl border border-border bg-soft-gray/50 p-6"
+                delay={i * 80}
+                className="border-b border-border p-8 sm:[&:nth-child(even)]:border-l sm:first:border-t"
               >
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-navy">
+                <h3 className="font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald">
                   {t}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-graphite">{d}</p>
-              </div>
+                <p className="mt-4 text-sm leading-relaxed text-graphite">{d}</p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Serviços por categoria */}
-      <section id="servicos" className="border-b border-border bg-soft-gray/30">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+      <section id="servicos" className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+          <Reveal className="flex flex-wrap items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-wider text-emerald-deep">
-                Serviços
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-navy-deep md:text-4xl">
-                Quatro frentes, uma mesma inteligência
+              <p className="eyebrow">Serviços</p>
+              <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
+                Quatro frentes,
+                <span className="text-graphite"> uma mesma inteligência</span>
               </h2>
             </div>
-            <Link
-              to="/servicos"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-graphite transition-colors hover:border-navy hover:text-navy"
-            >
-              Ver todos os serviços <ArrowRight className="h-4 w-4" />
+            <Link to="/servicos" className="btn-ghost !px-5 !py-3 !text-[10px]">
+              Ver todos os serviços <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
             </Link>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {SERVICE_CATEGORIES.map((cat) => (
-              <ServiceCategoryCard key={cat.id} cat={cat} />
+          </Reveal>
+          <div className="mt-20 grid gap-px bg-border md:grid-cols-2">
+            {SERVICE_CATEGORIES.map((cat, i) => (
+              <Reveal key={cat.id} delay={i * 80}>
+                <ServiceCategoryCard cat={cat} />
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Checklist IRPF */}
-      <section id="checklist" className="bg-navy-deep">
-        <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-          <div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-emerald">
-                Checklist inicial
-              </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-primary-foreground md:text-4xl">
+      <section id="checklist" className="border-b border-border bg-soft-gray/40">
+        <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+          <div className="grid items-start gap-16 md:grid-cols-2 md:gap-24">
+            <Reveal>
+              <p className="eyebrow">Checklist inicial</p>
+              <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
                 Comece em menos de 2 minutos
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-primary-foreground/70">
+              <div className="hairline mt-10 max-w-xs" />
+              <p className="mt-10 max-w-md font-serif text-[17px] leading-[1.9] text-graphite">
                 Marque os documentos que você já tem. Preparamos seu atendimento
                 a partir do que falta — sem retrabalho, sem surpresas.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="rounded-2xl bg-background p-7 shadow-2xl shadow-black/20 md:p-9">
-              <div className="space-y-3">
+            <Reveal delay={100} className="border border-border bg-background p-8 md:p-10">
+              <div className="divide-y divide-border border-y border-border">
                 {documents.map((doc) => {
                   const isChecked = !!checked[doc];
                   return (
@@ -290,28 +288,24 @@ function Index() {
                       key={doc}
                       type="button"
                       onClick={() => toggle(doc)}
-                      className={`group flex w-full items-center gap-4 rounded-lg border px-4 py-3.5 text-left transition-all ${
-                        isChecked
-                          ? "border-emerald bg-emerald/5"
-                          : "border-border bg-background hover:border-emerald/40"
-                      }`}
+                      className="group flex w-full items-center gap-4 py-4 text-left transition-colors"
                     >
                       <span
-                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors ${
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center border transition-colors duration-300 ${
                           isChecked
-                            ? "border-emerald-deep bg-emerald-deep"
-                            : "border-border bg-background"
+                            ? "border-emerald bg-emerald"
+                            : "border-border group-hover:border-emerald/60"
                         }`}
                       >
                         {isChecked && (
                           <Check
-                            className="h-3.5 w-3.5 text-primary-foreground"
-                            strokeWidth={3}
+                            className="h-3 w-3 text-primary-foreground"
+                            strokeWidth={2.5}
                           />
                         )}
                       </span>
                       <span
-                        className={`text-sm font-medium ${
+                        className={`text-sm transition-colors ${
                           isChecked ? "text-navy-deep" : "text-graphite"
                         }`}
                       >
@@ -322,26 +316,26 @@ function Index() {
                 })}
               </div>
 
-              <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground">
+              <div className="mt-6 flex items-center justify-between font-display text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 <span>
-                  {checkedCount} de {documents.length} marcados
+                  {checkedCount} / {documents.length} marcados
                 </span>
-                <span>Você pode enviar mesmo sem ter tudo</span>
+                <span>Envie mesmo sem ter tudo</span>
               </div>
 
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-4 text-base font-semibold text-primary-foreground transition-colors hover:bg-navy-deep"
+                className="btn-solid mt-8 w-full justify-center"
               >
-                <MessageCircle className="h-5 w-5" />
+                <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
                 Enviar para o WhatsApp
               </a>
-              <p className="mt-3 text-center text-xs text-muted-foreground">
+              <p className="mt-4 text-center font-display text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 Resposta em até 1 hora útil
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -354,9 +348,9 @@ function Index() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar com a MF Advisory no WhatsApp"
-        className="fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20 transition-transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-50 inline-flex h-12 w-12 items-center justify-center border border-emerald/40 bg-background/80 text-emerald backdrop-blur transition-colors hover:bg-emerald hover:text-primary-foreground"
       >
-        <MessageCircle className="h-7 w-7" />
+        <MessageCircle className="h-5 w-5" strokeWidth={1.4} />
       </a>
     </div>
   );
