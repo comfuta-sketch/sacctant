@@ -44,50 +44,45 @@ function ContatoPage() {
 
       <section>
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-2 md:gap-24">
-          <div className="space-y-4">
-            {[
-              { icon: Phone, label: "Telefone / WhatsApp", value: "(98) 98477-6989" },
-              { icon: Mail, label: "E-mail", value: "s.acctant@gmail.com" },
-              { icon: MapPin, label: "Localização", value: "São Luís — Maranhão • atendimento 100% online" },
-              { icon: Clock, label: "Horário", value: "Seg. a sex., 9h às 18h • resposta em até 1 hora útil" },
-            ].map((c) => (
-              <div
-                key={c.label}
-                className="flex items-start gap-4 rounded-xl border border-border bg-background p-5"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald/10 text-emerald-deep">
-                  <c.icon className="h-5 w-5" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                    {c.label}
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-navy-deep">
-                    {c.value}
-                  </p>
+          <div>
+            <div className="divide-y divide-border border-y border-border">
+              {[
+                { icon: Phone, label: "Telefone / WhatsApp", value: "(98) 98477-6989" },
+                { icon: Mail, label: "E-mail", value: "s.acctant@gmail.com" },
+                { icon: MapPin, label: "Localização", value: "São Luís — Maranhão • atendimento 100% online" },
+                { icon: Clock, label: "Horário", value: "Seg. a sex., 9h às 18h • resposta em até 1 hora útil" },
+              ].map((c) => (
+                <div key={c.label} className="flex items-start gap-5 py-6">
+                  <c.icon className="mt-0.5 h-5 w-5 shrink-0 text-emerald" strokeWidth={1.15} />
+                  <div className="min-w-0">
+                    <p className="font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      {c.label}
+                    </p>
+                    <p className="mt-2 text-sm text-navy-deep">{c.value}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-            <LgpdNotice />
+              ))}
+            </div>
+            <div className="mt-10">
+              <LgpdNotice />
+            </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-soft-gray/50 p-8">
-            <h2 className="text-xl font-bold text-navy-deep">
+          <div className="border border-border p-10 md:p-12">
+            <p className="eyebrow">Atendimento</p>
+            <h2 className="display-title mt-6 text-lg text-navy-deep md:text-2xl">
               Iniciar atendimento
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-graphite">
+            <p className="mt-6 font-serif text-[16px] leading-[1.9] text-graphite">
               Escolha o canal que preferir: envio rápido pelo WhatsApp, sem
               cadastro, ou o portal completo com upload de documentos e contrato
               digital opcional.
             </p>
-            <div className="mt-6 space-y-3">
+            <div className="mt-10 space-y-4">
               <StartChannelDialog
                 trigger={
-                  <button
-                    type="button"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3.5 text-base font-semibold text-primary-foreground transition-colors hover:bg-navy-deep"
-                  >
-                    Escolher canal de atendimento
+                  <button type="button" className="btn-solid w-full justify-center">
+                    Escolher canal
                   </button>
                 }
               />
@@ -95,12 +90,13 @@ function ContatoPage() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-base font-medium text-graphite transition-colors hover:border-emerald hover:text-emerald-deep"
+                className="btn-ghost w-full justify-center"
               >
-                <MessageCircle className="h-5 w-5" /> WhatsApp direto
+                <MessageCircle className="h-4 w-4" strokeWidth={1.4} /> WhatsApp direto
               </a>
             </div>
           </div>
+
         </div>
       </section>
 
