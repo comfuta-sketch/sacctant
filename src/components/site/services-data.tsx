@@ -19,7 +19,7 @@ export type ServiceItem = {
 export type ServiceCategory = {
   id: string;
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
   intro: string;
   items: ServiceItem[];
 };
