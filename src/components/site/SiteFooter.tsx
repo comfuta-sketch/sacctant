@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Brand } from "@/components/site/Brand";
 import { LgpdNotice } from "@/components/LgpdNotice";
-import { WHATSAPP_URL } from "@/lib/auth-helpers";
+import { WHATSAPP_HANDLE, WHATSAPP_URL } from "@/lib/auth-helpers";
 
 export function SiteFooter() {
   return (
@@ -11,10 +11,14 @@ export function SiteFooter() {
         <div className="grid gap-14 md:grid-cols-4 md:gap-10">
           <div className="md:col-span-2">
             <Brand />
+            <p className="mt-6 font-display text-[10px] font-semibold uppercase tracking-[0.42em] text-muted-foreground">
+              The future, calculated.
+            </p>
             <p className="mt-8 max-w-sm text-sm leading-relaxed text-graphite">
-              Consultoria contábil e estratégica para empresas e profissionais.
-              Transformamos números em inteligência para decisões — com
-              planejamento tributário, BPO financeiro e assessoria empresarial.
+              Advisory contábil, tributária e financeira para o middle market
+              brasileiro. Transformamos complexidade em inteligência de
+              negócios — CFO as a Service, governança, arquitetura fiscal e
+              wealth management.
             </p>
           </div>
 
@@ -22,14 +26,14 @@ export function SiteFooter() {
             <h4 className="eyebrow">Navegação</h4>
             <ul className="mt-6 space-y-3 text-sm text-graphite">
               <li><Link to="/quem-somos" className="transition-colors hover:text-foreground">Quem somos</Link></li>
-              <li><Link to="/servicos" className="transition-colors hover:text-foreground">Serviços</Link></li>
+              <li><Link to="/servicos" className="transition-colors hover:text-foreground">Soluções</Link></li>
               <li><Link to="/contato" className="transition-colors hover:text-foreground">Contato</Link></li>
               <li><Link to="/auth" search={{ redirect: "/cliente" }} className="transition-colors hover:text-foreground">Área do Cliente</Link></li>
             </ul>
           </div>
 
           <div className="md:border-l md:border-border md:pl-10">
-            <h4 className="eyebrow">Contato</h4>
+            <h4 className="eyebrow">Canal exclusivo</h4>
             <ul className="mt-6 space-y-4 text-sm text-graphite">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-emerald" strokeWidth={1.25} />
@@ -37,11 +41,11 @@ export function SiteFooter() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-emerald" strokeWidth={1.25} />
-                <span>(98) 98477-6989</span>
+                <span>{WHATSAPP_HANDLE}</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald" strokeWidth={1.25} />
-                <span>São Luís — Maranhão • Atendimento 100% online</span>
+                <span>São Luís — Maranhão • atendimento nacional</span>
               </li>
               <li className="pt-1">
                 <a
@@ -50,12 +54,13 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   className="btn-ghost !px-4 !py-2.5 !text-[10px]"
                 >
-                  <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.25} /> WhatsApp
+                  <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.25} /> Falar com um Especialista
                 </a>
               </li>
             </ul>
           </div>
         </div>
+
 
         <div className="mt-20 border-t border-border pt-8">
           <LgpdNotice />
