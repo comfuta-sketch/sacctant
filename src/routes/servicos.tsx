@@ -58,22 +58,23 @@ function ServicosPage() {
 
           <div className="mt-20 flex flex-wrap items-center justify-between gap-8 border border-border bg-soft-gray/40 p-10 md:p-14">
             <div>
-              <h2 className="display-title text-lg text-navy-deep md:text-2xl">
+              <h2 className="display-title text-lg tracking-[0.1em] text-navy-deep md:text-2xl">
                 Não sabe por onde começar?
               </h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-graphite">
-                Fazemos um diagnóstico inicial gratuito para indicar a
-                prioridade certa para o seu momento.
+                Conduzimos um diagnóstico estratégico confidencial para
+                identificar a prioridade certa para o seu momento.
               </p>
             </div>
             <Link
               to="/contato"
               className="btn-solid"
             >
-              Falar com um consultor
+              Solicitar Diagnóstico Estratégico
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
             </Link>
           </div>
+
 
           <div className="mt-16">
             <LgpdNotice />
