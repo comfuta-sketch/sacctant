@@ -17,7 +17,7 @@ export const Route = createFileRoute("/quem-somos")({
       {
         property: "og:description",
         content:
-          "Missão, visão e valores da MF Advisory — consultoria contábil e estratégica em São Luís/MA.",
+          "Missão, visão e valores da MF Advisory — advisory contábil, tributária e financeira para o middle market brasileiro.",
       },
     ],
   }),
@@ -32,7 +32,7 @@ const PILARES = [
   {
     icon: Eye,
     title: "Visão",
-    desc: "Ser referência no Maranhão em consultoria contábil estratégica, reconhecida pela clareza técnica e pela proximidade com o cliente.",
+    desc: "Ser referência nacional em advisory contábil e tributária para o middle market, reconhecida pelo rigor técnico e pela discrição.",
   },
   {
     icon: HeartHandshake,

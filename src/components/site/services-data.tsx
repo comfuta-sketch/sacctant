@@ -1,19 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import {
   BarChart3,
-  Building2,
   Calculator,
   FileText,
+  Gem,
   Landmark,
-  LineChart,
-  Wallet,
+  ScrollText,
+  Sigma,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
 export type ServiceItem = {
   title: string;
   desc: string;
-  price?: string;
 };
 
 export type ServiceCategory = {
@@ -26,93 +25,86 @@ export type ServiceCategory = {
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
   {
-    id: "consultoria",
-    label: "Consultoria Estratégica",
-    icon: LineChart,
+    id: "cfo-as-a-service",
+    label: "CFO as a Service & Controladoria",
+    icon: Sigma,
     intro:
-      "Diagnóstico, indicadores e cenários para decidir com base em dados — não em intuição.",
+      "Uma diretoria financeira sob demanda para sustentar decisões de nível C com dados auditáveis.",
     items: [
       {
-        title: "Diagnóstico empresarial",
-        desc: "Análise de estrutura, margens e riscos com plano de ação priorizado.",
-        price: "A partir de R$ 890",
+        title: "Gestão de indicadores e performance",
+        desc: "KPIs financeiros, margens por linha de negócio e leitura executiva mensal.",
       },
       {
-        title: "Planejamento tributário",
-        desc: "Escolha do regime, simulações e economia fiscal dentro da legalidade.",
-        price: "A partir de R$ 1.200",
+        title: "DRE gerencial e projeções de caixa",
+        desc: "Modelagem de cenários, orçamento e projeção de fluxo em horizonte rolante.",
       },
       {
-        title: "Assessoria para decisões",
-        desc: "Acompanhamento recorrente de indicadores e reuniões de resultado.",
-        price: "Sob consulta",
+        title: "Suporte à tomada de decisão",
+        desc: "Comitês de resultado, análise de investimentos e preparação para captação.",
       },
     ],
   },
   {
-    id: "contabilidade",
-    label: "Contabilidade Empresarial",
-    icon: Building2,
+    id: "contabilidade-governanca",
+    label: "Contabilidade Estratégica & Governança",
+    icon: ScrollText,
     intro:
-      "Escrituração, obrigações e demonstrações confiáveis, com prazos sob controle.",
+      "Escrituração avançada e conformidade rigorosa para empresas em tração e scale-ups.",
     items: [
       {
-        title: "Contabilidade completa",
-        desc: "Escrituração fiscal e contábil, folha e obrigações acessórias.",
-        price: "A partir de R$ 490/mês",
+        title: "Escrituração avançada e fechamentos",
+        desc: "Rotinas contábeis, fiscais e de folha com calendário e trilha documental.",
       },
       {
-        title: "Abertura e regularização de empresas",
-        desc: "Constituição, alterações contratuais e adequação cadastral.",
-        price: "A partir de R$ 690",
+        title: "Governança e conformidade",
+        desc: "Controles internos, políticas e adequação societária para due diligence.",
       },
       {
-        title: "Consultoria MEI e Simples Nacional",
-        desc: "DAS, DASN-SIMEI, enquadramento e transição para a Reforma Tributária.",
-        price: "A partir de R$ 120",
+        title: "Estruturação de empresas em crescimento",
+        desc: "Constituição, reorganizações e alinhamento cadastral para novos ciclos.",
       },
     ],
   },
   {
-    id: "bpo",
-    label: "BPO Financeiro",
-    icon: Wallet,
-    intro:
-      "Rotina financeira terceirizada, com fluxo de caixa organizado e relatórios claros.",
-    items: [
-      {
-        title: "Gestão de contas a pagar e receber",
-        desc: "Conciliação bancária, agenda de pagamentos e cobrança.",
-        price: "A partir de R$ 690/mês",
-      },
-      {
-        title: "Fluxo de caixa e relatórios gerenciais",
-        desc: "Projeções, DRE gerencial e painéis mensais de desempenho.",
-        price: "A partir de R$ 450/mês",
-      },
-    ],
-  },
-  {
-    id: "pessoa-fisica",
-    label: "Pessoa Física & Patrimônio",
+    id: "planejamento-tributario",
+    label: "Planejamento Tributário & Reforma",
     icon: Landmark,
     intro:
-      "Conformidade fiscal pessoal e organização patrimonial com segurança.",
+      "Arquitetura fiscal preditiva com inteligência baseada no IVA Dual, CBS e IBS.",
     items: [
       {
-        title: "Declaração de IRPF",
-        desc: "Elaboração, revisão, envio e acompanhamento de malha fina.",
-        price: "A partir de R$ 180",
+        title: "Arquitetura fiscal preditiva",
+        desc: "Simulação de regimes e desenho de estrutura com eficiência sustentável.",
       },
       {
-        title: "Regularização de CPF e pendências",
-        desc: "Situação cadastral, restituições e retificações na Receita.",
-        price: "A partir de R$ 120",
+        title: "Transição para o IVA Dual (CBS/IBS)",
+        desc: "Mapeamento de impactos, precificação e cronograma de adequação.",
       },
       {
-        title: "Organização patrimonial",
-        desc: "Bens, investimentos e sucessão sob ótica fiscal.",
-        price: "Sob consulta",
+        title: "Mitigação legal de riscos",
+        desc: "Revisão de créditos, defesa técnica e prevenção de contingências.",
+      },
+    ],
+  },
+  {
+    id: "wealth-management",
+    label: "Gestão Patrimonial e Wealth Management",
+    icon: Gem,
+    intro:
+      "Organização patrimonial para executivos, holdings familiares e alta renda.",
+    items: [
+      {
+        title: "Holdings familiares e sucessão",
+        desc: "Estrutura societária, governança familiar e planejamento sucessório.",
+      },
+      {
+        title: "Blindagem fiscal de alta renda",
+        desc: "Eficiência tributária de rendimentos, investimentos e ativos no exterior.",
+      },
+      {
+        title: "Conformidade patrimonial do executivo",
+        desc: "Declarações, regularizações e consolidação de posição patrimonial.",
       },
     ],
   },
@@ -136,16 +128,9 @@ export function ServiceCategoryCard({ cat }: { cat: ServiceCategory }) {
       <ul className="mt-8 space-y-6 border-t border-border pt-8">
         {cat.items.map((s) => (
           <li key={s.title}>
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className="text-sm font-medium tracking-wide text-navy-deep">
-                {s.title}
-              </p>
-              {s.price && (
-                <span className="font-display text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald">
-                  {s.price}
-                </span>
-              )}
-            </div>
+            <p className="text-sm font-medium tracking-wide text-navy-deep">
+              {s.title}
+            </p>
             <p className="mt-1.5 text-sm leading-relaxed text-graphite">
               {s.desc}
             </p>
@@ -156,7 +141,7 @@ export function ServiceCategoryCard({ cat }: { cat: ServiceCategory }) {
         to="/contato"
         className="mt-10 inline-flex items-center gap-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-graphite transition-colors hover:text-emerald"
       >
-        Solicitar proposta
+        Solicitar Diagnóstico Estratégico
       </Link>
     </div>
   );

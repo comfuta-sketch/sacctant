@@ -4,23 +4,23 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { StartChannelDialog } from "@/components/StartChannelDialog";
 import { LgpdNotice } from "@/components/LgpdNotice";
-import { WHATSAPP_URL } from "@/lib/auth-helpers";
+import { WHATSAPP_HANDLE, WHATSAPP_URL } from "@/lib/auth-helpers";
 
 export const Route = createFileRoute("/contato")({
   component: ContatoPage,
   head: () => ({
     meta: [
-      { title: "Contato | MF Advisory — São Luís/MA" },
+      { title: "Contato | MF Advisory — Canal Exclusivo" },
       {
         name: "description",
         content:
-          "Fale com a MF Advisory: WhatsApp (98) 98477-6989, e-mail s.acctant@gmail.com. Atendimento online em todo o Brasil, base em São Luís/MA.",
+          "Fale com a MF Advisory pelo canal corporativo @MarcosMelo.Advisory ou por e-mail. Atendimento nacional, confidencial e 100% digital.",
       },
       { property: "og:title", content: "Contato | MF Advisory" },
       {
         property: "og:description",
         content:
-          "WhatsApp, e-mail e horários de atendimento da MF Advisory — consultoria contábil estratégica.",
+          "Canal exclusivo de comunicação corporativa para agendar um diagnóstico privado com a MF Advisory.",
       },
     ],
   }),
@@ -36,7 +36,7 @@ function ContatoPage() {
           <p className="eyebrow">
             Contato
           </p>
-          <h1 className="display-title mt-8 max-w-2xl text-3xl text-navy-deep md:text-5xl">
+          <h1 className="display-title mt-8 max-w-2xl text-3xl tracking-[0.1em] text-navy-deep md:text-5xl">
             Vamos conversar sobre a sua próxima decisão
           </h1>
         </div>
@@ -47,11 +47,13 @@ function ContatoPage() {
           <div>
             <div className="divide-y divide-border border-y border-border">
               {[
-                { icon: Phone, label: "Telefone / WhatsApp", value: "(98) 98477-6989" },
+                { icon: MessageCircle, label: "Canal corporativo", value: WHATSAPP_HANDLE },
+                { icon: Phone, label: "WhatsApp blindado", value: "(98) 98477-6989" },
                 { icon: Mail, label: "E-mail", value: "s.acctant@gmail.com" },
-                { icon: MapPin, label: "Localização", value: "São Luís — Maranhão • atendimento 100% online" },
+                { icon: MapPin, label: "Cobertura", value: "Atendimento nacional • 100% digital" },
                 { icon: Clock, label: "Horário", value: "Seg. a sex., 9h às 18h • resposta em até 1 hora útil" },
               ].map((c) => (
+
                 <div key={c.label} className="flex items-start gap-5 py-6">
                   <c.icon className="mt-0.5 h-5 w-5 shrink-0 text-emerald" strokeWidth={1.15} />
                   <div className="min-w-0">
