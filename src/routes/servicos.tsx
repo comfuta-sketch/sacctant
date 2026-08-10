@@ -12,17 +12,17 @@ export const Route = createFileRoute("/servicos")({
   component: ServicosPage,
   head: () => ({
     meta: [
-      { title: "Serviços | MF Advisory — Consultoria, Contabilidade e BPO" },
+      { title: "Soluções | MF Advisory — Advisory Premium" },
       {
         name: "description",
         content:
-          "Consultoria estratégica, contabilidade empresarial, BPO financeiro e serviços de pessoa física (IRPF, CPF, patrimônio) com valores a partir de.",
+          "CFO as a Service, contabilidade estratégica e governança, planejamento tributário na Reforma (IVA Dual, CBS e IBS) e wealth management para executivos.",
       },
-      { property: "og:title", content: "Serviços | MF Advisory" },
+      { property: "og:title", content: "Soluções | MF Advisory" },
       {
         property: "og:description",
         content:
-          "Consultoria estratégica, contabilidade empresarial, BPO financeiro e IRPF — soluções organizadas por categoria.",
+          "Quatro frentes de advisory: controladoria, governança contábil, arquitetura tributária e gestão patrimonial.",
       },
     ],
   }),
@@ -35,19 +35,18 @@ function ServicosPage() {
 
       <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-6xl px-6 py-28 md:py-40">
-          <p className="eyebrow">
-            Serviços
-          </p>
-          <h1 className="display-title mt-8 max-w-3xl text-3xl text-navy-deep md:text-5xl">
-            Soluções organizadas por necessidade
+          <p className="eyebrow">Soluções</p>
+          <h1 className="display-title mt-8 max-w-3xl text-3xl tracking-[0.1em] text-navy-deep md:text-5xl">
+            Soluções desenhadas por valor
           </h1>
           <p className="mt-10 max-w-2xl font-serif text-[17px] leading-[1.9] text-graphite">
-            Da rotina contábil à decisão estratégica. Os valores indicados são
-            pontos de partida — a proposta final considera porte, regime
-            tributário e volume de operações.
+            Não trabalhamos com tabelas de preço. Cada proposta é construída a
+            partir de um diagnóstico privado que considera porte, estrutura
+            societária, regime tributário e complexidade das operações.
           </p>
         </div>
       </section>
+
 
       <section>
         <div className="mx-auto max-w-6xl px-6 py-24">
