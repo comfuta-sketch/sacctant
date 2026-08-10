@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
 import {
   ArrowRight,
   BarChart3,
-  Check,
   Compass,
   Handshake,
+  Layers,
   MessageCircle,
   ShieldCheck,
+  Telescope,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -24,79 +24,73 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "MF Advisory | Inteligência para Decisões" },
+      { title: "MF Advisory | The Future, Calculated." },
       {
         name: "description",
         content:
-          "Consultoria contábil e estratégica em São Luís/MA: planejamento tributário, BPO financeiro, contabilidade empresarial e IRPF. Inteligência para decisões.",
+          "Advisory premium para o middle market: CFO as a Service, contabilidade estratégica, arquitetura tributária (IVA Dual, CBS e IBS) e wealth management.",
       },
-      { property: "og:title", content: "MF Advisory | Inteligência para Decisões" },
+      { property: "og:title", content: "MF Advisory | The Future, Calculated." },
       {
         property: "og:description",
         content:
-          "Consultoria contábil e estratégica: planejamento tributário, BPO financeiro, contabilidade empresarial e IRPF.",
+          "Transformamos complexidade tributária, contábil e financeira em inteligência de negócios para grandes líderes.",
       },
     ],
   }),
 });
 
-const documents = [
-  "RG ou CNH",
-  "CPF",
-  "Informe de Rendimentos",
-  "Extrato Bancário",
-  "Comprovante de Residência",
-  "Recibos médicos e educacionais",
-];
-
 const DIFERENCIAIS = [
   {
     icon: Compass,
     title: "Visão estratégica",
-    desc: "Cada número é lido como informação de gestão: margem, risco e cenário — não apenas obrigação acessória.",
+    desc: "Cada número é lido como informação de gestão: margem, risco e cenário — nunca como obrigação acessória.",
   },
   {
     icon: BarChart3,
     title: "Decisão baseada em dados",
-    desc: "Indicadores, DRE gerencial e projeções de caixa que mostram o efeito de cada escolha antes de executá-la.",
+    desc: "Indicadores, DRE gerencial e projeções de caixa que mostram o efeito de cada escolha antes da execução.",
   },
   {
     icon: ShieldCheck,
-    title: "Segurança e conformidade",
-    desc: "Protocolos de sigilo, aderência à LGPD e prazos fiscais sob controle, com trilha documental completa.",
+    title: "Confidencialidade absoluta",
+    desc: "Protocolos de sigilo, aderência à LGPD e trilha documental completa em cada entrega.",
   },
   {
     icon: Handshake,
-    title: "Parceria contínua",
-    desc: "Consultor dedicado, canal direto no WhatsApp e reuniões periódicas de resultado.",
+    title: "Parceria de longo prazo",
+    desc: "Consultor dedicado, canal privado de comunicação e comitês periódicos de resultado.",
+  },
+];
+
+const APPROACH = [
+  {
+    n: "01",
+    icon: Telescope,
+    title: "Diagnóstico",
+    desc: "Leitura profunda de estrutura societária, carga tributária, margens e riscos. Definimos a linha de base e as prioridades reais.",
+  },
+  {
+    n: "02",
+    icon: Layers,
+    title: "Estruturação",
+    desc: "Desenho da arquitetura contábil, fiscal e de controles internos que sustenta o próximo ciclo de crescimento.",
+  },
+  {
+    n: "03",
+    icon: Compass,
+    title: "Estratégia",
+    desc: "Cenários quantificados, eficiência tributária e plano de decisão com impacto projetado sobre caixa e resultado.",
+  },
+  {
+    n: "04",
+    icon: BarChart3,
+    title: "Acompanhamento",
+    desc: "Comitês de resultado, indicadores mensais e ajuste contínuo de rota junto à liderança.",
   },
 ];
 
 function Index() {
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-
-  const toggle = (doc: string) => setChecked((c) => ({ ...c, [doc]: !c[doc] }));
-
-  const checkedCount = useMemo(
-    () => Object.values(checked).filter(Boolean).length,
-    [checked],
-  );
-
-  const whatsappLink = useMemo(() => {
-    const have = documents.filter((d) => checked[d]);
-    const missing = documents.filter((d) => !checked[d]);
-    const msg = [
-      "Olá! Gostaria de iniciar meu atendimento com a MF Advisory.",
-      "",
-      `Documentos que já tenho (${have.length}):`,
-      ...(have.length ? have.map((d) => `✓ ${d}`) : ["—"]),
-      "",
-      `Ainda preciso providenciar (${missing.length}):`,
-      ...(missing.length ? missing.map((d) => `• ${d}`) : ["—"]),
-    ].join("\n");
-    return `https://wa.me/5598984776989?text=${encodeURIComponent(msg)}`;
-  }, [checked]);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
@@ -105,31 +99,34 @@ function Index() {
       <section className="relative overflow-hidden border-b border-border">
         <div className="mx-auto max-w-6xl px-6 pt-28 pb-32 md:pt-40 md:pb-44">
           <Reveal className="max-w-4xl">
-            <p className="eyebrow">Consultoria contábil e estratégica • São Luís/MA</p>
-            <h1 className="display-title mt-10 text-[2.6rem] text-navy-deep sm:text-6xl md:text-[5rem]">
-              Inteligência
-              <span className="mt-2 block font-normal normal-case tracking-[-0.02em] text-emerald">
-                <span className="font-serif italic">para decisões</span>
+            <p className="eyebrow">Advisory premium • Middle market brasileiro</p>
+            <h1 className="display-title mt-10 text-[2.6rem] tracking-[0.1em] text-navy-deep sm:text-6xl md:text-[5rem]">
+              O futuro,
+              <span className="mt-2 block font-normal normal-case tracking-[-0.01em] text-emerald">
+                <span className="font-serif italic">calculado.</span>
               </span>
             </h1>
+            <p className="mt-8 font-display text-[10px] font-semibold uppercase tracking-[0.42em] text-muted-foreground">
+              The future, calculated.
+            </p>
             <div className="hairline mt-14 max-w-md" />
-            <p className="mt-10 max-w-xl text-base leading-[1.9] text-graphite md:text-lg">
-              A MF Advisory une contabilidade, planejamento tributário e gestão
-              financeira para que cada decisão do seu negócio seja tomada com
-              clareza, segurança e previsibilidade.
+            <p className="mt-10 max-w-2xl text-base leading-[1.9] text-graphite md:text-lg">
+              Transformamos complexidade tributária, contábil e financeira em
+              inteligência de negócios. Arquitetamos os próximos passos de
+              grandes líderes.
             </p>
 
             <div className="mt-14 flex flex-wrap items-center gap-4">
               <StartChannelDialog
                 trigger={
                   <button type="button" className="btn-solid">
-                    Iniciar atendimento
+                    Agendar Diagnóstico Privado
                     <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>
                 }
               />
               <Link to="/servicos" className="btn-ghost">
-                Ver serviços
+                Ver soluções
               </Link>
             </div>
           </Reveal>
@@ -137,15 +134,15 @@ function Index() {
           <Reveal delay={120}>
             <dl className="mt-24 grid max-w-3xl border-t border-border sm:grid-cols-3">
               {[
-                ["+10 anos", "de prática contábil e fiscal"],
-                ["100% online", "documentos e assinatura digital"],
-                ["LGPD", "sigilo e proteção de dados"],
+                ["+10 anos", "de prática contábil, fiscal e financeira"],
+                ["100% digital", "governança documental e assinatura eletrônica"],
+                ["Confidencial", "sigilo profissional e conformidade LGPD"],
               ].map(([k, v]) => (
                 <div
                   key={k}
                   className="border-b border-border py-8 sm:border-b-0 sm:border-r sm:pr-8 sm:last:border-r-0 sm:[&:not(:first-child)]:pl-8"
                 >
-                  <dt className="font-display text-xl font-semibold uppercase tracking-[0.08em] text-navy-deep">
+                  <dt className="font-display text-xl font-semibold uppercase tracking-[0.12em] text-navy-deep">
                     {k}
                   </dt>
                   <dd className="mt-2 text-sm text-graphite">{v}</dd>
@@ -171,8 +168,8 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
           <Reveal className="max-w-2xl">
             <p className="eyebrow">Diferenciais</p>
-            <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
-              Consultoria,
+            <h2 className="display-title mt-6 text-2xl tracking-[0.1em] text-navy-deep md:text-4xl">
+              Advisory,
               <span className="text-graphite"> não apenas conformidade</span>
             </h2>
           </Reveal>
@@ -184,7 +181,7 @@ function Index() {
                 className="border-b border-border px-0 py-10 sm:px-8 sm:[&:not(:nth-child(1))]:border-l lg:py-14 sm:first:pl-0"
               >
                 <d.icon className="h-6 w-6 text-emerald" strokeWidth={1.15} />
-                <h3 className="mt-8 font-display text-sm font-semibold uppercase tracking-[0.14em] text-navy-deep">
+                <h3 className="mt-8 font-display text-sm font-semibold uppercase tracking-[0.16em] text-navy-deep">
                   {d.title}
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-graphite">
@@ -201,13 +198,14 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-28 md:grid-cols-2 md:gap-24 md:py-36">
           <Reveal>
             <p className="eyebrow">Quem somos</p>
-            <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
+            <h2 className="display-title mt-6 text-2xl tracking-[0.1em] text-navy-deep md:text-4xl">
               Uma advisory com raiz técnica contábil
             </h2>
             <p className="mt-10 font-serif text-[17px] leading-[1.9] text-graphite">
-              Atuamos com empresários, profissionais liberais e famílias que
-              precisam de mais do que guias pagas em dia: precisam entender o
-              impacto financeiro e tributário de cada movimento.
+              Atuamos com companhias em tração, executivos e famílias
+              empresárias que precisam de mais do que obrigações cumpridas:
+              precisam medir o impacto financeiro e tributário de cada
+              movimento antes de executá-lo.
             </p>
             <Link
               to="/quem-somos"
@@ -218,9 +216,9 @@ function Index() {
           </Reveal>
           <div className="grid sm:grid-cols-2">
             {[
-              ["Missão", "Transformar informação contábil em inteligência aplicada às decisões."],
-              ["Visão", "Ser referência no Maranhão em consultoria contábil estratégica."],
-              ["Valores", "Ética, sigilo, precisão técnica e transparência nos honorários."],
+              ["Missão", "Transformar informação contábil e financeira em inteligência aplicada às decisões."],
+              ["Visão", "Ser referência nacional em advisory contábil e tributária para o middle market."],
+              ["Valores", "Ética, sigilo, precisão técnica e transparência absoluta."],
               ["Método", "Diagnóstico, estruturação, estratégia e acompanhamento."],
             ].map(([t, d], i) => (
               <Reveal
@@ -243,14 +241,14 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
           <Reveal className="flex flex-wrap items-end justify-between gap-8">
             <div className="max-w-2xl">
-              <p className="eyebrow">Serviços</p>
-              <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
+              <p className="eyebrow">Soluções</p>
+              <h2 className="display-title mt-6 text-2xl tracking-[0.1em] text-navy-deep md:text-4xl">
                 Quatro frentes,
                 <span className="text-graphite"> uma mesma inteligência</span>
               </h2>
             </div>
             <Link to="/servicos" className="btn-ghost !px-5 !py-3 !text-[10px]">
-              Ver todos os serviços <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
+              Ver todas as soluções <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
             </Link>
           </Reveal>
           <div className="mt-20 grid gap-px bg-border md:grid-cols-2">
@@ -263,80 +261,65 @@ function Index() {
         </div>
       </section>
 
-      {/* Checklist IRPF */}
-      <section id="checklist" className="border-b border-border bg-soft-gray/40">
+      {/* The MF Approach */}
+      <section id="approach" className="border-b border-border bg-soft-gray/40">
         <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
-          <div className="grid items-start gap-16 md:grid-cols-2 md:gap-24">
-            <Reveal>
-              <p className="eyebrow">Checklist inicial</p>
-              <h2 className="display-title mt-6 text-2xl text-navy-deep md:text-4xl">
-                Comece em menos de 2 minutos
-              </h2>
-              <div className="hairline mt-10 max-w-xs" />
-              <p className="mt-10 max-w-md font-serif text-[17px] leading-[1.9] text-graphite">
-                Marque os documentos que você já tem. Preparamos seu atendimento
-                a partir do que falta — sem retrabalho, sem surpresas.
-              </p>
-            </Reveal>
+          <Reveal className="max-w-2xl">
+            <p className="eyebrow">The MF Approach</p>
+            <h2 className="display-title mt-6 text-2xl tracking-[0.1em] text-navy-deep md:text-4xl">
+              Quatro fases,
+              <span className="text-graphite"> uma trajetória previsível</span>
+            </h2>
+            <div className="hairline mt-10 max-w-xs" />
+            <p className="mt-10 font-serif text-[17px] leading-[1.9] text-graphite">
+              Um método sequencial que parte do diagnóstico e termina em
+              acompanhamento contínuo — cada fase entrega decisões, não
+              relatórios.
+            </p>
+          </Reveal>
 
-            <Reveal delay={100} className="border border-border bg-background p-8 md:p-10">
-              <div className="divide-y divide-border border-y border-border">
-                {documents.map((doc) => {
-                  const isChecked = !!checked[doc];
-                  return (
-                    <button
-                      key={doc}
-                      type="button"
-                      onClick={() => toggle(doc)}
-                      className="group flex w-full items-center gap-4 py-4 text-left transition-colors"
-                    >
-                      <span
-                        className={`flex h-5 w-5 shrink-0 items-center justify-center border transition-colors duration-300 ${
-                          isChecked
-                            ? "border-emerald bg-emerald"
-                            : "border-border group-hover:border-emerald/60"
-                        }`}
-                      >
-                        {isChecked && (
-                          <Check
-                            className="h-3 w-3 text-primary-foreground"
-                            strokeWidth={2.5}
-                          />
-                        )}
-                      </span>
-                      <span
-                        className={`text-sm transition-colors ${
-                          isChecked ? "text-navy-deep" : "text-graphite"
-                        }`}
-                      >
-                        {doc}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-6 flex items-center justify-between font-display text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                <span>
-                  {checkedCount} / {documents.length} marcados
-                </span>
-                <span>Envie mesmo sem ter tudo</span>
-              </div>
-
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-solid mt-8 w-full justify-center"
+          <div className="mt-20 grid border-t border-border md:grid-cols-2 lg:grid-cols-4">
+            {APPROACH.map((p, i) => (
+              <Reveal
+                key={p.n}
+                delay={i * 90}
+                className="border-b border-border px-0 py-10 sm:px-8 lg:py-14 md:[&:not(:nth-child(1))]:border-l md:first:pl-0"
               >
-                <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
-                Enviar para o WhatsApp
-              </a>
-              <p className="mt-4 text-center font-display text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Resposta em até 1 hora útil
-              </p>
-            </Reveal>
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="font-display text-[10px] font-semibold uppercase tracking-[0.28em] text-emerald">
+                    {p.n}
+                  </span>
+                  <p.icon className="h-5 w-5 text-graphite" strokeWidth={1.15} />
+                </div>
+                <h3 className="mt-8 font-display text-sm font-semibold uppercase tracking-[0.16em] text-navy-deep">
+                  {p.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-graphite">
+                  {p.desc}
+                </p>
+              </Reveal>
+            ))}
           </div>
+
+          <Reveal delay={120} className="mt-20 flex flex-wrap items-center justify-between gap-8 border border-border p-10 md:p-14">
+            <div>
+              <h3 className="display-title text-lg tracking-[0.1em] text-navy-deep md:text-2xl">
+                Comece pelo diagnóstico
+              </h3>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-graphite">
+                Uma conversa privada e confidencial para entender o momento da
+                sua operação e desenhar a proposta sob medida.
+              </p>
+            </div>
+            <StartChannelDialog
+              trigger={
+                <button type="button" className="btn-solid">
+                  Agendar Diagnóstico Privado
+                  <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />
+                </button>
+              }
+            />
+          </Reveal>
         </div>
       </section>
 
@@ -347,7 +330,7 @@ function Index() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Falar com a MF Advisory no WhatsApp"
+        aria-label="Falar com um especialista da MF Advisory"
         className="fixed bottom-6 right-6 z-50 inline-flex h-12 w-12 items-center justify-center border border-emerald/40 bg-background/80 text-emerald backdrop-blur transition-colors hover:bg-emerald hover:text-primary-foreground"
       >
         <MessageCircle className="h-5 w-5" strokeWidth={1.4} />
