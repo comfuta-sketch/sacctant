@@ -36,6 +36,8 @@ export function cpfToInternalEmail(cpf: string) {
 
 export const ASAAS_PAYMENT_URL = "https://www.asaas.com/c/x2qzdzypk1kya7nj";
 export const WHATSAPP_NUMBER = "5598984776989";
+/** Canal corporativo blindado de comunicação. */
+export const WHATSAPP_HANDLE = "@MarcosMelo.Advisory";
 export const WHATSAPP_DEFAULT_MSG =
-  "Olá Marcos, vim pelo site da MF Advisory e gostaria de falar sobre meu atendimento contábil/tributário.";
+  "Olá, vim pelo site da MF Advisory e gostaria de agendar um diagnóstico privado.";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MSG)}`;
