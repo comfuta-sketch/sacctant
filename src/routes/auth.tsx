@@ -457,6 +457,7 @@ function AuthPage() {
                   <div className="text-right">
                     <Link
                       to="/auth/recuperar"
+                      search={{ redirect: "/cliente" }}
                       className="text-sm text-navy hover:underline"
                     >
                       Esqueci minha senha
