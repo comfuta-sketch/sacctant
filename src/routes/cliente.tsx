@@ -87,17 +87,22 @@ function ClientePage() {
             Acompanhe seus atendimentos, documentos, materiais de apoio e contratos com a MF Advisory.
           </p>
 
-          <Tabs defaultValue="declaracoes" className="mt-8">
-            <TabsList className="grid w-full grid-cols-3 max-w-md">
+          <Tabs defaultValue="demandas" className="mt-8">
+            <TabsList className="grid w-full max-w-3xl grid-cols-2 sm:grid-cols-5">
+              <TabsTrigger value="demandas"><LayoutList className="h-4 w-4 mr-1.5" />Demandas</TabsTrigger>
+              <TabsTrigger value="contratos"><FileSignature className="h-4 w-4 mr-1.5" />Documentos</TabsTrigger>
+              <TabsTrigger value="agenda"><CalendarClock className="h-4 w-4 mr-1.5" />Agenda</TabsTrigger>
               <TabsTrigger value="declaracoes"><FileText className="h-4 w-4 mr-1.5" />Atendimentos</TabsTrigger>
               <TabsTrigger value="tutoriais"><BookOpen className="h-4 w-4 mr-1.5" />Conhecimento</TabsTrigger>
-              <TabsTrigger value="contratos"><FileSignature className="h-4 w-4 mr-1.5" />Contratos</TabsTrigger>
             </TabsList>
 
+            <TabsContent value="demandas" className="mt-6"><SolicitacoesTab /></TabsContent>
+            <TabsContent value="contratos" className="mt-6"><DocumentosContratosTab /></TabsContent>
+            <TabsContent value="agenda" className="mt-6"><AgendamentoTab /></TabsContent>
             <TabsContent value="declaracoes" className="mt-6"><DeclaracoesTab /></TabsContent>
             <TabsContent value="tutoriais" className="mt-6"><TutoriaisTab /></TabsContent>
-            <TabsContent value="contratos" className="mt-6"><ContratosTab /></TabsContent>
           </Tabs>
+
 
           <div className="mt-10"><LgpdNotice /></div>
         </main>
