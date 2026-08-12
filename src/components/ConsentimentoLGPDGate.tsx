@@ -128,7 +128,7 @@ export function ConsentimentoLGPDGate({ children }: Props) {
           </button>
           <p className="mt-3 text-center text-[11px] text-muted-foreground">
             Você pode revogar o consentimento a qualquer momento entrando em
-            contato pelo e-mail s.acctant@gmail.com.
+            contato pelo e-mail marcosmelo.advisory@gmail.com.
           </p>
         </div>
       </div>

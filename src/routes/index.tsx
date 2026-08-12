@@ -12,7 +12,7 @@ import {
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Reveal } from "@/components/site/Reveal";
-import { StartChannelDialog } from "@/components/StartChannelDialog";
+import { HelpChannelDialog } from "@/components/HelpChannelDialog";
 import {
   SERVICE_CATEGORIES,
   ServiceCategoryCard,
@@ -117,7 +117,7 @@ function Index() {
             </p>
 
             <div className="mt-14 flex flex-wrap items-center gap-4">
-              <StartChannelDialog
+              <HelpChannelDialog
                 trigger={
                   <button type="button" className="btn-solid">
                     Agendar Diagnóstico Privado
@@ -311,7 +311,7 @@ function Index() {
                 sua operação e desenhar a proposta sob medida.
               </p>
             </div>
-            <StartChannelDialog
+            <HelpChannelDialog
               trigger={
                 <button type="button" className="btn-solid">
                   Agendar Diagnóstico Privado

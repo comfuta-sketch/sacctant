@@ -37,7 +37,7 @@ export function SiteFooter() {
             <ul className="mt-6 space-y-4 text-sm text-graphite">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-emerald" strokeWidth={1.25} />
-                <span>s.acctant@gmail.com</span>
+                <span>marcosmelo.advisory@gmail.com</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-emerald" strokeWidth={1.25} />

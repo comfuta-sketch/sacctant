@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { User as UserIcon } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Brand } from "@/components/site/Brand";
-import { StartChannelDialog } from "@/components/StartChannelDialog";
+import { HelpChannelDialog } from "@/components/HelpChannelDialog";
 
 const NAV = [
   { to: "/", label: "Início" },
@@ -43,7 +43,7 @@ export function SiteHeader() {
             <UserIcon className="h-4 w-4" strokeWidth={1.25} />
             {user ? (isAdmin ? "Painel" : "Minha Área") : "Área do Cliente"}
           </Link>
-          <StartChannelDialog
+          <HelpChannelDialog
             trigger={
               <button type="button" className="btn-ghost !px-5 !py-3">
                 Falar com a MF
