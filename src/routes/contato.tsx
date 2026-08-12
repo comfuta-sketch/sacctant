@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { StartChannelDialog } from "@/components/StartChannelDialog";
+import { HelpChannelDialog } from "@/components/HelpChannelDialog";
 import { LgpdNotice } from "@/components/LgpdNotice";
 import { WHATSAPP_HANDLE, WHATSAPP_URL } from "@/lib/auth-helpers";
 
@@ -49,7 +49,7 @@ function ContatoPage() {
               {[
                 { icon: MessageCircle, label: "Canal corporativo", value: WHATSAPP_HANDLE },
                 { icon: Phone, label: "WhatsApp blindado", value: "(98) 98477-6989" },
-                { icon: Mail, label: "E-mail", value: "s.acctant@gmail.com" },
+                { icon: Mail, label: "E-mail", value: "marcosmelo.advisory@gmail.com" },
                 { icon: MapPin, label: "Cobertura", value: "Atendimento nacional • 100% digital" },
                 { icon: Clock, label: "Horário", value: "Seg. a sex., 9h às 18h • resposta em até 1 hora útil" },
               ].map((c) => (
@@ -81,7 +81,7 @@ function ContatoPage() {
               digital opcional.
             </p>
             <div className="mt-10 space-y-4">
-              <StartChannelDialog
+              <HelpChannelDialog
                 trigger={
                   <button type="button" className="btn-solid w-full justify-center">
                     Escolher canal

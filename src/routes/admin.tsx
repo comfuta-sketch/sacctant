@@ -10,6 +10,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ConsentimentoLGPDGate } from "@/components/ConsentimentoLGPDGate";
 import { AdminTutoriais } from "@/components/AdminTutoriais";
+import { AdminSolicitacoes } from "@/components/admin/AdminSolicitacoes";
+import { AdminContratos } from "@/components/admin/AdminContratos";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -36,6 +38,8 @@ const COLUMNS: { id: Status; label: string; icon: React.ComponentType<{ classNam
   { id: "em_analise", label: "Em Análise", icon: AlertCircle, color: "border-blue-300" },
   { id: "concluido", label: "Concluído", icon: CheckCircle2, color: "border-green-300" },
 ];
+
+const ARCHIVED_COLUMNS = COLUMNS.filter((c) => c.id === "concluido");
 
 function AdminPage() {
   const navigate = useNavigate();
@@ -74,12 +78,22 @@ function AdminPage() {
         <main className="mx-auto max-w-7xl px-6 py-10">
           <h1 className="text-2xl md:text-3xl font-bold text-navy-deep">Painel Administrativo</h1>
 
-          <Tabs defaultValue="kanban" className="mt-6">
-            <TabsList>
-              <TabsTrigger value="kanban">Kanban de Demandas</TabsTrigger>
+          <p className="mt-1 text-sm text-graphite">
+            Administrador principal: marcosmelo.advisory@gmail.com
+          </p>
+
+          <Tabs defaultValue="resolucao" className="mt-6">
+            <TabsList className="flex flex-wrap">
+              <TabsTrigger value="resolucao">Central de Resolução</TabsTrigger>
+              <TabsTrigger value="kanban">Kanban de Processos</TabsTrigger>
+              <TabsTrigger value="contratos">Contratos e Entregas</TabsTrigger>
+              <TabsTrigger value="finalizados">Processos Finalizados</TabsTrigger>
               <TabsTrigger value="tutoriais">Tutoriais</TabsTrigger>
             </TabsList>
+            <TabsContent value="resolucao" className="mt-4"><AdminSolicitacoes /></TabsContent>
             <TabsContent value="kanban" className="mt-4"><KanbanView /></TabsContent>
+            <TabsContent value="contratos" className="mt-4"><AdminContratos /></TabsContent>
+            <TabsContent value="finalizados" className="mt-4"><KanbanView archived /></TabsContent>
             <TabsContent value="tutoriais" className="mt-4"><AdminTutoriais /></TabsContent>
           </Tabs>
         </main>
@@ -88,7 +102,7 @@ function AdminPage() {
   );
 }
 
-function KanbanView() {
+function KanbanView({ archived = false }: { archived?: boolean }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [documentos, setDocumentos] = useState<Documento[]>([]);
   const [loading, setLoading] = useState(true);
@@ -116,8 +130,8 @@ function KanbanView() {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-3">
-        {COLUMNS.map((col) => {
+      <div className={`grid gap-4 ${archived ? "" : "md:grid-cols-3"}`}>
+        {(archived ? ARCHIVED_COLUMNS : COLUMNS).map((col) => {
           const Icon = col.icon;
           const items = clientes.filter((c) => c.status === col.id);
           return (
@@ -132,7 +146,13 @@ function KanbanView() {
                 <span className="text-xs text-muted-foreground">{items.length}</span>
               </div>
               <div className="space-y-2">
-                {items.map((c) => (
+                {col.id === "concluido" && !archived && (
+                  <p className="px-1 py-4 text-xs text-muted-foreground">
+                    Arraste um card aqui para finalizar e arquivar em "Processos
+                    Finalizados".
+                  </p>
+                )}
+                {(col.id === "concluido" && !archived ? [] : items).map((c) => (
                   <div key={c.id}
                     draggable onDragStart={() => setDragId(c.id)} onDragEnd={() => setDragId(null)}
                     onClick={() => setSelected(c)}
@@ -144,7 +164,9 @@ function KanbanView() {
                     </p>
                   </div>
                 ))}
-                {items.length === 0 && <p className="px-1 py-4 text-xs text-muted-foreground">Vazio</p>}
+                {items.length === 0 && !(col.id === "concluido" && !archived) && (
+                  <p className="px-1 py-4 text-xs text-muted-foreground">Vazio</p>
+                )}
               </div>
             </div>
           );

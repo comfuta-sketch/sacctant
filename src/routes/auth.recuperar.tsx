@@ -76,7 +76,7 @@ function RecuperarPage() {
               MF <span className="text-emerald">Advisory</span>
             </span>
           </Link>
-          <Link to="/auth" className="text-sm text-graphite hover:text-navy">
+          <Link to="/auth" search={{ redirect: "/cliente" }} className="text-sm text-graphite hover:text-navy">
             ← Voltar
           </Link>
         </div>
@@ -100,6 +100,7 @@ function RecuperarPage() {
               <div className="mt-4">
                 <Link
                   to="/auth"
+                  search={{ redirect: "/cliente" }}
                   className="inline-flex items-center justify-center rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-navy-deep"
                 >
                   Voltar ao acesso
