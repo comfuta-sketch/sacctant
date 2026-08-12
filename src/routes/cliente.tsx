@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Calculator, LogOut, FileText, Download, Upload, CheckCircle2, Clock,
   AlertCircle, Loader2, MessageCircle, BookOpen, FileSignature, Tag,
+  LayoutList, CalendarClock,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -10,7 +11,9 @@ import { WHATSAPP_URL } from "@/lib/auth-helpers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LgpdNotice } from "@/components/LgpdNotice";
 import { ConsentimentoLGPDGate } from "@/components/ConsentimentoLGPDGate";
-import { ContratoCliente } from "@/components/ContratoCliente";
+import { SolicitacoesTab } from "@/components/portal/SolicitacoesTab";
+import { DocumentosContratosTab } from "@/components/portal/DocumentosContratosTab";
+import { AgendamentoTab } from "@/components/portal/AgendamentoTab";
 
 export const Route = createFileRoute("/cliente")({
   component: ClientePage,
@@ -30,13 +33,6 @@ type Tutorial = {
   id: string; titulo: string; descricao: string | null;
   conteudo: string | null; categoria: string | null;
 };
-type Contrato = {
-  id: string; cliente_id: string; titulo: string;
-  status: string; modelo_storage_path: string | null;
-  dados_preenchidos: Record<string, unknown>;
-  assinatura_base64: string | null; assinado_em: string | null;
-};
-
 const STATUS_LABEL = {
   aguardando_documentos: { label: "Aguardando Documentos", icon: Clock, color: "text-amber-700 bg-amber-50" },
   em_analise: { label: "Em Análise", icon: AlertCircle, color: "text-blue-700 bg-blue-50" },
@@ -309,42 +305,6 @@ function TutoriaisTab() {
             </div>
           )}
         </button>
-      ))}
-    </div>
-  );
-}
-
-function ContratosTab() {
-  const [contratos, setContratos] = useState<Contrato[]>([]);
-  const [loading, setLoading] = useState(true);
-  const reload = async () => {
-    setLoading(true);
-    const { data } = await supabase.from("contratos")
-      .select("id,cliente_id,titulo,status,modelo_storage_path,dados_preenchidos,assinatura_base64,assinado_em")
-      .order("created_at", { ascending: false });
-    setContratos((data ?? []) as Contrato[]);
-    setLoading(false);
-  };
-  useEffect(() => { void reload(); }, []);
-
-  if (loading) return <div className="flex justify-center py-10"><Loader2 className="h-6 w-6 animate-spin text-navy" /></div>;
-
-  if (contratos.length === 0) {
-    return (
-      <div className="rounded-xl border border-dashed border-border bg-background p-10 text-center">
-        <FileSignature className="mx-auto h-10 w-10 text-graphite/60" />
-        <h2 className="mt-4 text-lg font-semibold text-navy-deep">Nenhum contrato disponível</h2>
-        <p className="mt-2 text-sm text-graphite">
-          Quando um contrato for emitido para você, ele aparecerá aqui para preenchimento e assinatura digital.
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      {contratos.map((c) => (
-        <ContratoCliente key={c.id} contrato={c} onChange={reload} />
       ))}
     </div>
   );
