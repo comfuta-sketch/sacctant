@@ -99,12 +99,15 @@ export type Database = {
           cliente_id: string
           created_at: string
           dados_preenchidos: Json
+          enviado_em: string | null
           id: string
           modelo_storage_path: string | null
           status: string
+          tipo: string
           titulo: string
           updated_at: string
           user_id: string
+          visualizado_em: string | null
         }
         Insert: {
           assinado_em?: string | null
@@ -112,12 +115,15 @@ export type Database = {
           cliente_id: string
           created_at?: string
           dados_preenchidos?: Json
+          enviado_em?: string | null
           id?: string
           modelo_storage_path?: string | null
           status?: string
+          tipo?: string
           titulo: string
           updated_at?: string
           user_id: string
+          visualizado_em?: string | null
         }
         Update: {
           assinado_em?: string | null
@@ -125,12 +131,15 @@ export type Database = {
           cliente_id?: string
           created_at?: string
           dados_preenchidos?: Json
+          enviado_em?: string | null
           id?: string
           modelo_storage_path?: string | null
           status?: string
+          tipo?: string
           titulo?: string
           updated_at?: string
           user_id?: string
+          visualizado_em?: string | null
         }
         Relationships: [
           {
@@ -218,6 +227,94 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      solicitacao_mensagens: {
+        Row: {
+          autor_id: string
+          autor_tipo: string
+          created_at: string
+          id: string
+          mensagem: string
+          nome_arquivo: string | null
+          solicitacao_id: string
+          storage_path: string | null
+        }
+        Insert: {
+          autor_id: string
+          autor_tipo?: string
+          created_at?: string
+          id?: string
+          mensagem?: string
+          nome_arquivo?: string | null
+          solicitacao_id: string
+          storage_path?: string | null
+        }
+        Update: {
+          autor_id?: string
+          autor_tipo?: string
+          created_at?: string
+          id?: string
+          mensagem?: string
+          nome_arquivo?: string | null
+          solicitacao_id?: string
+          storage_path?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solicitacao_mensagens_solicitacao_id_fkey"
+            columns: ["solicitacao_id"]
+            isOneToOne: false
+            referencedRelation: "solicitacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      solicitacoes: {
+        Row: {
+          assunto: string
+          categoria: string
+          cliente_id: string | null
+          concluida_em: string | null
+          created_at: string
+          descricao: string
+          id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assunto: string
+          categoria?: string
+          cliente_id?: string | null
+          concluida_em?: string | null
+          created_at?: string
+          descricao?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assunto?: string
+          categoria?: string
+          cliente_id?: string | null
+          concluida_em?: string | null
+          created_at?: string
+          descricao?: string
+          id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solicitacoes_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tutoriais: {
         Row: {
