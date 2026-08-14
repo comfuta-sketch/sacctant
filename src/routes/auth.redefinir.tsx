@@ -100,7 +100,7 @@ function RedefinirPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md rounded-xl border border-border bg-background p-8 shadow-sm">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 card-elev">
           <h1 className="text-2xl font-bold text-navy-deep">Nova senha</h1>
           <p className="mt-1 text-sm text-graphite">
             Defina uma nova senha para acessar sua área.
@@ -118,7 +118,7 @@ function RedefinirPage() {
                 <Link
                   to="/auth/recuperar"
                       search={{ redirect: "/cliente" }}
-                  className="inline-flex items-center justify-center rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-navy-deep"
+                  className="inline-flex items-center justify-center rounded-lg bg-emerald px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-emerald-deep"
                 >
                   Solicitar novo link
                 </Link>
@@ -164,7 +164,7 @@ function RedefinirPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-navy-deep transition-colors disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-emerald-deep transition-colors disabled:opacity-60"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 Salvar nova senha

@@ -263,7 +263,7 @@ function AuthPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md rounded-xl border border-border bg-background p-8 shadow-sm">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 card-elev">
           {otpStep ? (
             <>
               <h1 className="text-2xl font-bold text-navy-deep">
@@ -302,7 +302,7 @@ function AuthPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-navy-deep transition-colors disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-emerald-deep transition-colors disabled:opacity-60"
                 >
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                   Confirmar e entrar
@@ -447,7 +447,7 @@ function AuthPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-navy-deep transition-colors disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-emerald-deep transition-colors disabled:opacity-60"
                 >
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                   {mode === "login" ? "Entrar" : "Criar conta"}
