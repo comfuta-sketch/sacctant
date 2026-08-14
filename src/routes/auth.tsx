@@ -476,17 +476,18 @@ function AuthPage() {
                   {mode === "login" ? "Entrar" : "Criar conta"}
                 </button>
 
-                {tab === "cliente" && mode === "login" && (
+                {mode === "login" && (
                   <div className="text-right">
                     <Link
                       to="/auth/recuperar"
-                      search={{ redirect: "/cliente" }}
+                      search={{ redirect: tab === "admin" ? "/admin" : "/cliente" }}
                       className="text-sm text-navy hover:underline"
                     >
                       Esqueci minha senha
                     </Link>
                   </div>
                 )}
+
               </form>
 
               <p className="mt-4 text-center text-sm text-graphite">
