@@ -263,7 +263,7 @@ function AuthPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md rounded-xl border border-border bg-background p-8 shadow-sm">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-8 card-elev">
           {otpStep ? (
             <>
               <h1 className="text-2xl font-bold text-navy-deep">
