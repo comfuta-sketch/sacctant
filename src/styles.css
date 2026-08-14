@@ -210,9 +210,9 @@
     color 260ms ease;
 
   &:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    background-color: color-mix(in oklab, var(--gold) 8%, transparent);
+    border-color: var(--gold-deep);
+    color: var(--gold-deep);
+    background-color: color-mix(in oklab, var(--gold) 10%, transparent);
   }
 }
 
@@ -236,11 +236,58 @@
     color 260ms ease;
 
   &:hover {
-    background-color: var(--gold);
-    border-color: var(--gold);
-    color: var(--midnight);
+    background-color: var(--gold-deep);
+    border-color: var(--gold-deep);
+    color: oklch(1 0 0);
   }
 }
+
+/* CTA dourado — ação principal (login, envios) */
+@utility btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border: 1px solid var(--gold-deep);
+  padding: 1rem 1.75rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  background-color: var(--gold-deep);
+  color: oklch(1 0 0);
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+
+  &:hover {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px color-mix(in oklab, var(--gold) 28%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    box-shadow: none;
+  }
+}
+
+/* Card com sombra difusa e ampla */
+@utility card-elev {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  transition:
+    box-shadow 300ms ease,
+    border-color 300ms ease;
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
 
 /* Revelação discreta no scroll */
 @utility reveal {
