@@ -114,21 +114,34 @@ function AuthPage() {
             return;
           }
 
-          const { error: signUpError } = await supabase.auth.signUp({
-            email: emailParsed.data,
-            password: senha,
-            options: {
-              emailRedirectTo: `${window.location.origin}/cliente`,
-              data: { cpf: onlyDigits(cpf), nome: nome.trim() },
-            },
-          });
+          const { data: signUpData, error: signUpError } =
+            await supabase.auth.signUp({
+              email: emailParsed.data,
+              password: senha,
+              options: {
+                emailRedirectTo: `${window.location.origin}/cliente`,
+                data: { cpf: onlyDigits(cpf), nome: nome.trim() },
+              },
+            });
           if (signUpError) throw signUpError;
+
+          // Supabase devolve 200 com identities vazio quando o e-mail já existe.
+          if ((signUpData.user?.identities?.length ?? 0) === 0) {
+            setMode("login");
+            setSenha("");
+            setSenha2("");
+            setError(
+              "Já existe uma conta com este e-mail e ela está confirmada — nenhum código é enviado nesse caso. Faça login ou use “Esqueci minha senha”.",
+            );
+            return;
+          }
 
           setOtpEmail(emailParsed.data);
           setOtpStep(true);
           setInfo(
             `Enviamos um código de 6 dígitos para ${emailParsed.data}. Digite-o abaixo para ativar sua conta.`,
           );
+
         } else {
           // Login: CPF -> email real -> signIn
           if (!senha) {
@@ -165,16 +178,26 @@ function AuthPage() {
             setError("As senhas não conferem.");
             return;
           }
-          const { error: signUpError } = await supabase.auth.signUp({
-            email,
-            password: senha,
-            options: { emailRedirectTo: `${window.location.origin}/admin` },
-          });
+          const { data: signUpData, error: signUpError } =
+            await supabase.auth.signUp({
+              email,
+              password: senha,
+              options: { emailRedirectTo: `${window.location.origin}/admin` },
+            });
           if (signUpError) throw signUpError;
-          setInfo(
-            "Conta criada. Verifique seu e-mail para confirmar antes de entrar.",
-          );
           setMode("login");
+          setSenha("");
+          setSenha2("");
+          if ((signUpData.user?.identities?.length ?? 0) === 0) {
+            setError(
+              "Este e-mail já possui conta ativa — nenhum e-mail de confirmação é enviado. Faça login ou use “Esqueci minha senha”.",
+            );
+          } else {
+            setInfo(
+              "Conta criada. Verifique seu e-mail para confirmar antes de entrar.",
+            );
+          }
+
         } else {
           const { error: signInError } =
             await supabase.auth.signInWithPassword({
@@ -453,17 +476,18 @@ function AuthPage() {
                   {mode === "login" ? "Entrar" : "Criar conta"}
                 </button>
 
-                {tab === "cliente" && mode === "login" && (
+                {mode === "login" && (
                   <div className="text-right">
                     <Link
                       to="/auth/recuperar"
-                      search={{ redirect: "/cliente" }}
+                      search={{ redirect: tab === "admin" ? "/admin" : "/cliente" }}
                       className="text-sm text-navy hover:underline"
                     >
                       Esqueci minha senha
                     </Link>
                   </div>
                 )}
+
               </form>
 
               <p className="mt-4 text-center text-sm text-graphite">
