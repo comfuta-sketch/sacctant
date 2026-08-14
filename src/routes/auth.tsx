@@ -178,16 +178,26 @@ function AuthPage() {
             setError("As senhas não conferem.");
             return;
           }
-          const { error: signUpError } = await supabase.auth.signUp({
-            email,
-            password: senha,
-            options: { emailRedirectTo: `${window.location.origin}/admin` },
-          });
+          const { data: signUpData, error: signUpError } =
+            await supabase.auth.signUp({
+              email,
+              password: senha,
+              options: { emailRedirectTo: `${window.location.origin}/admin` },
+            });
           if (signUpError) throw signUpError;
-          setInfo(
-            "Conta criada. Verifique seu e-mail para confirmar antes de entrar.",
-          );
           setMode("login");
+          setSenha("");
+          setSenha2("");
+          if ((signUpData.user?.identities?.length ?? 0) === 0) {
+            setError(
+              "Este e-mail já possui conta ativa — nenhum e-mail de confirmação é enviado. Faça login ou use “Esqueci minha senha”.",
+            );
+          } else {
+            setInfo(
+              "Conta criada. Verifique seu e-mail para confirmar antes de entrar.",
+            );
+          }
+
         } else {
           const { error: signInError } =
             await supabase.auth.signInWithPassword({
