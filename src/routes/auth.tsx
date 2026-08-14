@@ -114,21 +114,34 @@ function AuthPage() {
             return;
           }
 
-          const { error: signUpError } = await supabase.auth.signUp({
-            email: emailParsed.data,
-            password: senha,
-            options: {
-              emailRedirectTo: `${window.location.origin}/cliente`,
-              data: { cpf: onlyDigits(cpf), nome: nome.trim() },
-            },
-          });
+          const { data: signUpData, error: signUpError } =
+            await supabase.auth.signUp({
+              email: emailParsed.data,
+              password: senha,
+              options: {
+                emailRedirectTo: `${window.location.origin}/cliente`,
+                data: { cpf: onlyDigits(cpf), nome: nome.trim() },
+              },
+            });
           if (signUpError) throw signUpError;
+
+          // Supabase devolve 200 com identities vazio quando o e-mail já existe.
+          if ((signUpData.user?.identities?.length ?? 0) === 0) {
+            setMode("login");
+            setSenha("");
+            setSenha2("");
+            setError(
+              "Já existe uma conta com este e-mail e ela está confirmada — nenhum código é enviado nesse caso. Faça login ou use “Esqueci minha senha”.",
+            );
+            return;
+          }
 
           setOtpEmail(emailParsed.data);
           setOtpStep(true);
           setInfo(
             `Enviamos um código de 6 dígitos para ${emailParsed.data}. Digite-o abaixo para ativar sua conta.`,
           );
+
         } else {
           // Login: CPF -> email real -> signIn
           if (!senha) {
