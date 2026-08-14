@@ -170,7 +170,8 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.24em;
-  color: var(--gold);
+  color: var(--gold-deep);
+
 }
 
 /* Fio de 1px sutil, grade modernista */
