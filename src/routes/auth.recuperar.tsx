@@ -101,7 +101,7 @@ function RecuperarPage() {
                 <Link
                   to="/auth"
                   search={{ redirect: "/cliente" }}
-                  className="inline-flex items-center justify-center rounded-lg bg-navy px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-navy-deep"
+                  className="inline-flex items-center justify-center rounded-lg bg-emerald px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-emerald-deep"
                 >
                   Voltar ao acesso
                 </Link>
@@ -145,7 +145,7 @@ function RecuperarPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-navy-deep transition-colors disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-emerald-deep transition-colors disabled:opacity-60"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 Enviar link de redefinição
