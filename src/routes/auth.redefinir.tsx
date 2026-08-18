@@ -7,6 +7,10 @@ import { PasswordInput } from "@/components/PasswordInput";
 import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/auth/redefinir")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    code: typeof search.code === "string" ? search.code : undefined,
+    redirect: search.redirect === "/admin" ? "/admin" : "/cliente",
+  }),
   component: RedefinirPage,
   head: () => ({
     meta: [
@@ -27,6 +31,7 @@ const passwordSchema = z
 
 function RedefinirPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const [ready, setReady] = useState(false);
   const [hasSession, setHasSession] = useState(false);
   const [senha, setSenha] = useState("");
@@ -39,23 +44,42 @@ function RedefinirPage() {
   // PASSWORD_RECOVERY no listener.
   useEffect(() => {
     let mounted = true;
+    let recoveryEventReceived = false;
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
-      if (event === "PASSWORD_RECOVERY" || session) {
+      if (event === "PASSWORD_RECOVERY") {
+        recoveryEventReceived = true;
         setHasSession(!!session);
         setReady(true);
       }
     });
-    supabase.auth.getSession().then(({ data }) => {
+
+    const prepareRecovery = async () => {
+      if (search.code) {
+        const { error: exchangeError } =
+          await supabase.auth.exchangeCodeForSession(search.code);
+        if (!mounted) return;
+        setHasSession(!exchangeError);
+        setReady(true);
+        return;
+      }
+
+      const hash = window.location.hash;
+      const isRecoveryHash = /(?:^|&)type=recovery(?:&|$)/.test(
+        hash.replace(/^#/, ""),
+      );
+      await new Promise((resolve) => window.setTimeout(resolve, 350));
+      const { data } = await supabase.auth.getSession();
       if (!mounted) return;
-      setHasSession(!!data.session);
+      setHasSession(!!data.session && (isRecoveryHash || recoveryEventReceived));
       setReady(true);
-    });
+    };
+    void prepareRecovery();
     return () => {
       mounted = false;
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [search.code]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +100,7 @@ function RedefinirPage() {
       });
       if (uErr) throw uErr;
       setDone(true);
-      setTimeout(() => navigate({ to: "/cliente" }), 1500);
+      window.setTimeout(() => navigate({ to: search.redirect }), 1500);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao redefinir.");
     } finally {
@@ -117,7 +141,7 @@ function RedefinirPage() {
               <div className="mt-4">
                 <Link
                   to="/auth/recuperar"
-                      search={{ redirect: "/cliente" }}
+                      search={{ redirect: search.redirect }}
                   className="inline-flex items-center justify-center rounded-lg bg-emerald px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-emerald-deep"
                 >
                   Solicitar novo link

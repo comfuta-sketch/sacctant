@@ -10,7 +10,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { resolveClientEmailByCpf } from "@/lib/auth.functions";
 import { LgpdNotice } from "@/components/LgpdNotice";
 
-export const Route = createFileRoute("/auth")({
+export const Route = createFileRoute("/auth/")({
   validateSearch: (s: Record<string, unknown>) => ({
     redirect: typeof s.redirect === "string" ? s.redirect : "/cliente",
   }),
@@ -119,7 +119,7 @@ function AuthPage() {
               email: emailParsed.data,
               password: senha,
               options: {
-                emailRedirectTo: `${window.location.origin}/cliente`,
+                emailRedirectTo: `${window.location.origin}/auth/confirmar?redirect=/cliente`,
                 data: { cpf: onlyDigits(cpf), nome: nome.trim() },
               },
             });
@@ -138,8 +138,12 @@ function AuthPage() {
 
           setOtpEmail(emailParsed.data);
           setOtpStep(true);
+          if (signUpData.session) {
+            navigate({ to: search.redirect || "/cliente" });
+            return;
+          }
           setInfo(
-            `Enviamos um código de 6 dígitos para ${emailParsed.data}. Digite-o abaixo para ativar sua conta.`,
+            `Enviamos a confirmação para ${emailParsed.data}. Abra o link recebido ou informe abaixo o código, se ele aparecer na mensagem.`,
           );
 
         } else {
@@ -182,20 +186,24 @@ function AuthPage() {
             await supabase.auth.signUp({
               email,
               password: senha,
-              options: { emailRedirectTo: `${window.location.origin}/admin` },
+              options: {
+                emailRedirectTo: `${window.location.origin}/auth/confirmar?redirect=/admin`,
+              },
             });
           if (signUpError) throw signUpError;
-          setMode("login");
-          setSenha("");
-          setSenha2("");
           if ((signUpData.user?.identities?.length ?? 0) === 0) {
+            setMode("login");
+            setSenha("");
+            setSenha2("");
             setError(
               "Este e-mail já possui conta ativa — nenhum e-mail de confirmação é enviado. Faça login ou use “Esqueci minha senha”.",
             );
+          } else if (signUpData.session) {
+            navigate({ to: "/admin" });
           } else {
-            setInfo(
-              "Conta criada. Verifique seu e-mail para confirmar antes de entrar.",
-            );
+            setOtpEmail(email.trim().toLowerCase());
+            setOtpStep(true);
+            setInfo("Enviamos uma mensagem de confirmação. Abra o link recebido ou informe o código, se disponível.");
           }
 
         } else {
@@ -293,10 +301,13 @@ function AuthPage() {
                 Confirme seu e-mail
               </h1>
               <p className="mt-1 text-sm text-graphite">
-                Enviamos um código de 6 dígitos para{" "}
+                Enviamos uma mensagem de confirmação para{" "}
                 <span className="font-medium text-navy-deep">{otpEmail}</span>.
               </p>
               <form onSubmit={handleVerifyOtp} className="mt-6 space-y-4">
+                <p className="text-center text-xs text-graphite">
+                  Abra o link do e-mail. Se a mensagem trouxer um código, digite-o aqui.
+                </p>
                 <div className="flex justify-center">
                   <InputOTP maxLength={6} value={otp} onChange={setOtp}>
                     <InputOTPGroup>
@@ -328,7 +339,7 @@ function AuthPage() {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-emerald-deep transition-colors disabled:opacity-60"
                 >
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Confirmar e entrar
+                  Validar código e entrar
                 </button>
 
                 <div className="flex items-center justify-between text-sm">
