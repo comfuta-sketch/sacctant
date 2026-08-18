@@ -1,11 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
-
-const cpfSchema = z
-  .string()
-  .transform((v) => v.replace(/\D/g, ""))
-  .refine((v) => v.length === 11, "CPF inválido");
 
 /**
  * Resolve o e-mail real de um cliente a partir do CPF.
@@ -13,9 +7,19 @@ const cpfSchema = z
  */
 export const resolveClientEmailByCpf = createServerFn({ method: "POST" })
   .inputValidator((data: { cpf: string }) =>
-    z.object({ cpf: cpfSchema }).parse(data),
+    z
+      .object({
+        cpf: z
+          .string()
+          .transform((value) => value.replace(/\D/g, ""))
+          .refine((value) => value.length === 11, "CPF inválido"),
+      })
+      .parse(data),
   )
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import(
+      "@/integrations/supabase/client.server"
+    );
     const { data: row, error } = await supabaseAdmin
       .from("profiles")
       .select("email")
@@ -36,12 +40,18 @@ export const verifyCpfEmailMatch = createServerFn({ method: "POST" })
   .inputValidator((data: { cpf: string; email: string }) =>
     z
       .object({
-        cpf: cpfSchema,
+        cpf: z
+          .string()
+          .transform((value) => value.replace(/\D/g, ""))
+          .refine((value) => value.length === 11, "CPF inválido"),
         email: z.string().trim().toLowerCase().email(),
       })
       .parse(data),
   )
   .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import(
+      "@/integrations/supabase/client.server"
+    );
     const { data: row } = await supabaseAdmin
       .from("profiles")
       .select("email")

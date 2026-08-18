@@ -16,6 +16,7 @@ import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as AuthConfirmarRouteImport } from './routes/auth.confirmar'
 import { Route as AuthRecuperarRouteImport } from './routes/auth.recuperar'
 import { Route as AuthRedefinirRouteImport } from './routes/auth.redefinir'
 
@@ -54,6 +55,11 @@ const ServicosRoute = ServicosRouteImport.update({
   path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthConfirmarRoute = AuthConfirmarRouteImport.update({
+  id: '/confirmar',
+  path: '/confirmar',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthRecuperarRoute = AuthRecuperarRouteImport.update({
   id: '/recuperar',
   path: '/recuperar',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
+  '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
+  '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
   '/servicos': typeof ServicosRoute
+  '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/quem-somos'
     | '/servicos'
+    | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/quem-somos'
     | '/servicos'
+    | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/contato'
     | '/quem-somos'
     | '/servicos'
+    | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
   fileRoutesById: FileRoutesById
@@ -196,6 +208,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/confirmar': {
+      id: '/auth/confirmar'
+      path: '/confirmar'
+      fullPath: '/auth/confirmar'
+      preLoaderRoute: typeof AuthConfirmarRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/auth/recuperar': {
       id: '/auth/recuperar'
       path: '/recuperar'
@@ -214,11 +233,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteChildren {
+  AuthConfirmarRoute: typeof AuthConfirmarRoute
   AuthRecuperarRoute: typeof AuthRecuperarRoute
   AuthRedefinirRoute: typeof AuthRedefinirRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthConfirmarRoute: AuthConfirmarRoute,
   AuthRecuperarRoute: AuthRecuperarRoute,
   AuthRedefinirRoute: AuthRedefinirRoute,
 }
