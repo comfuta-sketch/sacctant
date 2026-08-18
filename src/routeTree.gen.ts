@@ -11,11 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as AuthIndexRouteImport } from './routes/auth.index'
 import { Route as AuthConfirmarRouteImport } from './routes/auth.confirmar'
 import { Route as AuthRecuperarRouteImport } from './routes/auth.recuperar'
 import { Route as AuthRedefinirRouteImport } from './routes/auth.redefinir'
@@ -28,11 +28,6 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteRoute = ClienteRouteImport.update({
@@ -55,26 +50,30 @@ const ServicosRoute = ServicosRouteImport.update({
   path: '/servicos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthConfirmarRoute = AuthConfirmarRouteImport.update({
-  id: '/confirmar',
-  path: '/confirmar',
-  getParentRoute: () => AuthRoute,
+  id: '/auth/confirmar',
+  path: '/auth/confirmar',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRecuperarRoute = AuthRecuperarRouteImport.update({
-  id: '/recuperar',
-  path: '/recuperar',
-  getParentRoute: () => AuthRoute,
+  id: '/auth/recuperar',
+  path: '/auth/recuperar',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRedefinirRoute = AuthRedefinirRouteImport.update({
-  id: '/redefinir',
-  path: '/redefinir',
-  getParentRoute: () => AuthRoute,
+  id: '/auth/redefinir',
+  path: '/auth/redefinir',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
@@ -82,11 +81,11 @@ export interface FileRoutesByFullPath {
   '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
+  '/auth/': typeof AuthIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
@@ -94,12 +93,12 @@ export interface FileRoutesByTo {
   '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
+  '/auth': typeof AuthIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/auth': typeof AuthRouteWithChildren
   '/cliente': typeof ClienteRoute
   '/contato': typeof ContatoRoute
   '/quem-somos': typeof QuemSomosRoute
@@ -107,13 +106,13 @@ export interface FileRoutesById {
   '/auth/confirmar': typeof AuthConfirmarRoute
   '/auth/recuperar': typeof AuthRecuperarRoute
   '/auth/redefinir': typeof AuthRedefinirRoute
+  '/auth/': typeof AuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/admin'
-    | '/auth'
     | '/cliente'
     | '/contato'
     | '/quem-somos'
@@ -121,11 +120,11 @@ export interface FileRouteTypes {
     | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
+    | '/auth/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
-    | '/auth'
     | '/cliente'
     | '/contato'
     | '/quem-somos'
@@ -133,11 +132,11 @@ export interface FileRouteTypes {
     | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
+    | '/auth'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/auth'
     | '/cliente'
     | '/contato'
     | '/quem-somos'
@@ -145,16 +144,20 @@ export interface FileRouteTypes {
     | '/auth/confirmar'
     | '/auth/recuperar'
     | '/auth/redefinir'
+    | '/auth/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AuthRoute: typeof AuthRouteWithChildren
   ClienteRoute: typeof ClienteRoute
   ContatoRoute: typeof ContatoRoute
   QuemSomosRoute: typeof QuemSomosRoute
   ServicosRoute: typeof ServicosRoute
+  AuthConfirmarRoute: typeof AuthConfirmarRoute
+  AuthRecuperarRoute: typeof AuthRecuperarRoute
+  AuthRedefinirRoute: typeof AuthRedefinirRoute
+  AuthIndexRoute: typeof AuthIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -171,13 +174,6 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente': {
@@ -208,52 +204,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/': {
+      id: '/auth/'
+      path: '/auth'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/confirmar': {
       id: '/auth/confirmar'
-      path: '/confirmar'
+      path: '/auth/confirmar'
       fullPath: '/auth/confirmar'
       preLoaderRoute: typeof AuthConfirmarRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof rootRouteImport
     }
     '/auth/recuperar': {
       id: '/auth/recuperar'
-      path: '/recuperar'
+      path: '/auth/recuperar'
       fullPath: '/auth/recuperar'
       preLoaderRoute: typeof AuthRecuperarRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof rootRouteImport
     }
     '/auth/redefinir': {
       id: '/auth/redefinir'
-      path: '/redefinir'
+      path: '/auth/redefinir'
       fullPath: '/auth/redefinir'
       preLoaderRoute: typeof AuthRedefinirRouteImport
-      parentRoute: typeof AuthRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AuthRouteChildren {
-  AuthConfirmarRoute: typeof AuthConfirmarRoute
-  AuthRecuperarRoute: typeof AuthRecuperarRoute
-  AuthRedefinirRoute: typeof AuthRedefinirRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthConfirmarRoute: AuthConfirmarRoute,
-  AuthRecuperarRoute: AuthRecuperarRoute,
-  AuthRedefinirRoute: AuthRedefinirRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AuthRoute: AuthRouteWithChildren,
   ClienteRoute: ClienteRoute,
   ContatoRoute: ContatoRoute,
   QuemSomosRoute: QuemSomosRoute,
   ServicosRoute: ServicosRoute,
+  AuthConfirmarRoute: AuthConfirmarRoute,
+  AuthRecuperarRoute: AuthRecuperarRoute,
+  AuthRedefinirRoute: AuthRedefinirRoute,
+  AuthIndexRoute: AuthIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
