@@ -9,6 +9,9 @@ import { verifyCpfEmailMatch } from "@/lib/auth.functions";
 import { LgpdNotice } from "@/components/LgpdNotice";
 
 export const Route = createFileRoute("/auth/recuperar")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    redirect: search.redirect === "/admin" ? "/admin" : "/cliente",
+  }),
   component: RecuperarPage,
   head: () => ({
     meta: [
@@ -24,6 +27,8 @@ export const Route = createFileRoute("/auth/recuperar")({
 const emailSchema = z.string().trim().toLowerCase().email("E-mail inválido.");
 
 function RecuperarPage() {
+  const search = Route.useSearch();
+  const isAdmin = search.redirect === "/admin";
   const verify = useServerFn(verifyCpfEmailMatch);
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
@@ -35,7 +40,7 @@ function RecuperarPage() {
     e.preventDefault();
     setError(null);
 
-    if (!isValidCPF(cpf)) {
+    if (!isAdmin && !isValidCPF(cpf)) {
       setError("CPF inválido.");
       return;
     }
@@ -47,14 +52,20 @@ function RecuperarPage() {
 
     setLoading(true);
     try {
-      const { match } = await verify({
-        data: { cpf: onlyDigits(cpf), email: emailParsed.data },
-      });
+      const match = isAdmin
+        ? true
+        : (
+            await verify({
+              data: { cpf: onlyDigits(cpf), email: emailParsed.data },
+            })
+          ).match;
       // Sempre mostramos a mesma mensagem para não revelar existência.
       if (match) {
-        await supabase.auth.resetPasswordForEmail(emailParsed.data, {
-          redirectTo: `${window.location.origin}/auth/redefinir`,
+        const { error: resetError } =
+          await supabase.auth.resetPasswordForEmail(emailParsed.data, {
+          redirectTo: `${window.location.origin}/auth/redefinir?redirect=${encodeURIComponent(search.redirect)}`,
         });
+        if (resetError) throw resetError;
       }
       setSent(true);
     } catch (err) {
@@ -88,8 +99,9 @@ function RecuperarPage() {
             Recuperar senha
           </h1>
           <p className="mt-1 text-sm text-graphite">
-            Informe seu CPF e o e-mail cadastrado. Enviaremos um link para
-            redefinir sua senha.
+            {isAdmin
+              ? "Informe o e-mail administrativo. Enviaremos um link para redefinir sua senha."
+              : "Informe seu CPF e o e-mail cadastrado. Enviaremos um link para redefinir sua senha."}
           </p>
 
           {sent ? (
@@ -100,7 +112,7 @@ function RecuperarPage() {
               <div className="mt-4">
                 <Link
                   to="/auth"
-                  search={{ redirect: "/cliente" }}
+                  search={{ redirect: search.redirect }}
                   className="inline-flex items-center justify-center rounded-lg bg-emerald px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-emerald-deep"
                 >
                   Voltar ao acesso
@@ -109,7 +121,7 @@ function RecuperarPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <label className="block">
+              {!isAdmin && <label className="block">
                 <span className="mb-1.5 block text-xs font-medium text-graphite">
                   CPF
                 </span>
@@ -121,7 +133,7 @@ function RecuperarPage() {
                   required
                   className={inputCls}
                 />
-              </label>
+              </label>}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-medium text-graphite">
                   E-mail cadastrado
