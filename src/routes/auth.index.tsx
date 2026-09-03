@@ -344,8 +344,12 @@ function AuthPage() {
                     type="button"
                     onClick={() => {
                       setTab(t);
+                      if (t === "admin") setMode("login");
+                      setSenha("");
+                      setSenha2("");
                       resetMessages();
                     }}
+
                     className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       tab === t
                         ? "bg-background text-navy-deep shadow-sm"
