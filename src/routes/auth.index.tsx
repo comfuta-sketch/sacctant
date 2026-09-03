@@ -172,50 +172,15 @@ function AuthPage() {
           setError("E-mail inválido.");
           return;
         }
-        if (mode === "cadastro") {
-          const passParsed = passwordSchema.safeParse(senha);
-          if (!passParsed.success) {
-            setError(passParsed.error.issues[0].message);
-            return;
-          }
-          if (senha !== senha2) {
-            setError("As senhas não conferem.");
-            return;
-          }
-          const { data: signUpData, error: signUpError } =
-            await supabase.auth.signUp({
-              email,
-              password: senha,
-              options: {
-                emailRedirectTo: `${window.location.origin}/auth/confirmar?redirect=/admin`,
-              },
-            });
-          if (signUpError) throw signUpError;
-          if ((signUpData.user?.identities?.length ?? 0) === 0) {
-            setMode("login");
-            setSenha("");
-            setSenha2("");
-            setError(
-              "Este e-mail já possui conta ativa — nenhum e-mail de confirmação é enviado. Faça login ou use “Esqueci minha senha”.",
-            );
-          } else if (signUpData.session) {
-            navigate({ to: "/admin" });
-          } else {
-            setOtpEmail(email.trim().toLowerCase());
-            setOtpStep(true);
-            setInfo("Enviamos uma mensagem de confirmação. Abra o link recebido ou informe o código, se disponível.");
-          }
-
-        } else {
-          const { error: signInError } =
-            await supabase.auth.signInWithPassword({
-              email,
-              password: senha,
-            });
-          if (signInError) throw signInError;
-          navigate({ to: "/admin" });
-        }
+        // Acesso administrativo é restrito ao administrador principal: sem cadastro.
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password: senha,
+        });
+        if (signInError) throw signInError;
+        navigate({ to: "/admin" });
       }
+
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Erro ao processar.";
       if (/Invalid login credentials/i.test(msg))
