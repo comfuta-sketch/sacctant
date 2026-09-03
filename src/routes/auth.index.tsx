@@ -172,50 +172,15 @@ function AuthPage() {
           setError("E-mail inválido.");
           return;
         }
-        if (mode === "cadastro") {
-          const passParsed = passwordSchema.safeParse(senha);
-          if (!passParsed.success) {
-            setError(passParsed.error.issues[0].message);
-            return;
-          }
-          if (senha !== senha2) {
-            setError("As senhas não conferem.");
-            return;
-          }
-          const { data: signUpData, error: signUpError } =
-            await supabase.auth.signUp({
-              email,
-              password: senha,
-              options: {
-                emailRedirectTo: `${window.location.origin}/auth/confirmar?redirect=/admin`,
-              },
-            });
-          if (signUpError) throw signUpError;
-          if ((signUpData.user?.identities?.length ?? 0) === 0) {
-            setMode("login");
-            setSenha("");
-            setSenha2("");
-            setError(
-              "Este e-mail já possui conta ativa — nenhum e-mail de confirmação é enviado. Faça login ou use “Esqueci minha senha”.",
-            );
-          } else if (signUpData.session) {
-            navigate({ to: "/admin" });
-          } else {
-            setOtpEmail(email.trim().toLowerCase());
-            setOtpStep(true);
-            setInfo("Enviamos uma mensagem de confirmação. Abra o link recebido ou informe o código, se disponível.");
-          }
-
-        } else {
-          const { error: signInError } =
-            await supabase.auth.signInWithPassword({
-              email,
-              password: senha,
-            });
-          if (signInError) throw signInError;
-          navigate({ to: "/admin" });
-        }
+        // Acesso administrativo é restrito ao administrador principal: sem cadastro.
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password: senha,
+        });
+        if (signInError) throw signInError;
+        navigate({ to: "/admin" });
       }
+
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Erro ao processar.";
       if (/Invalid login credentials/i.test(msg))
@@ -379,8 +344,12 @@ function AuthPage() {
                     type="button"
                     onClick={() => {
                       setTab(t);
+                      if (t === "admin") setMode("login");
+                      setSenha("");
+                      setSenha2("");
                       resetMessages();
                     }}
+
                     className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       tab === t
                         ? "bg-background text-navy-deep shadow-sm"
@@ -487,11 +456,11 @@ function AuthPage() {
                   {mode === "login" ? "Entrar" : "Criar conta"}
                 </button>
 
-                {mode === "login" && (
+                {mode === "login" && tab === "cliente" && (
                   <div className="text-right">
                     <Link
                       to="/auth/recuperar"
-                      search={{ redirect: tab === "admin" ? "/admin" : "/cliente" }}
+                      search={{ redirect: "/cliente" }}
                       className="text-sm text-navy hover:underline"
                     >
                       Esqueci minha senha
@@ -501,21 +470,30 @@ function AuthPage() {
 
               </form>
 
-              <p className="mt-4 text-center text-sm text-graphite">
-                {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
-                <button
-                  type="button"
-                  className="font-semibold text-navy hover:underline"
-                  onClick={() => {
-                    setMode(mode === "login" ? "cadastro" : "login");
-                    resetMessages();
-                    setSenha("");
-                    setSenha2("");
-                  }}
-                >
-                  {mode === "login" ? "Cadastre-se" : "Entrar"}
-                </button>
-              </p>
+              {tab === "admin" ? (
+                <p className="mt-4 text-center text-xs text-graphite">
+                  Acesso administrativo restrito ao administrador principal da MF
+                  Advisory. Não há cadastro nem recuperação de senha por este
+                  canal.
+                </p>
+              ) : (
+                <p className="mt-4 text-center text-sm text-graphite">
+                  {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
+                  <button
+                    type="button"
+                    className="font-semibold text-navy hover:underline"
+                    onClick={() => {
+                      setMode(mode === "login" ? "cadastro" : "login");
+                      resetMessages();
+                      setSenha("");
+                      setSenha2("");
+                    }}
+                  >
+                    {mode === "login" ? "Cadastre-se" : "Entrar"}
+                  </button>
+                </p>
+              )}
+
             </>
           )}
           <div className="mt-8"><LgpdNotice /></div>
