@@ -456,11 +456,11 @@ function AuthPage() {
                   {mode === "login" ? "Entrar" : "Criar conta"}
                 </button>
 
-                {mode === "login" && (
+                {mode === "login" && tab === "cliente" && (
                   <div className="text-right">
                     <Link
                       to="/auth/recuperar"
-                      search={{ redirect: tab === "admin" ? "/admin" : "/cliente" }}
+                      search={{ redirect: "/cliente" }}
                       className="text-sm text-navy hover:underline"
                     >
                       Esqueci minha senha
@@ -470,21 +470,30 @@ function AuthPage() {
 
               </form>
 
-              <p className="mt-4 text-center text-sm text-graphite">
-                {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
-                <button
-                  type="button"
-                  className="font-semibold text-navy hover:underline"
-                  onClick={() => {
-                    setMode(mode === "login" ? "cadastro" : "login");
-                    resetMessages();
-                    setSenha("");
-                    setSenha2("");
-                  }}
-                >
-                  {mode === "login" ? "Cadastre-se" : "Entrar"}
-                </button>
-              </p>
+              {tab === "admin" ? (
+                <p className="mt-4 text-center text-xs text-graphite">
+                  Acesso administrativo restrito ao administrador principal da MF
+                  Advisory. Não há cadastro nem recuperação de senha por este
+                  canal.
+                </p>
+              ) : (
+                <p className="mt-4 text-center text-sm text-graphite">
+                  {mode === "login" ? "Ainda não tem conta?" : "Já tem conta?"}{" "}
+                  <button
+                    type="button"
+                    className="font-semibold text-navy hover:underline"
+                    onClick={() => {
+                      setMode(mode === "login" ? "cadastro" : "login");
+                      resetMessages();
+                      setSenha("");
+                      setSenha2("");
+                    }}
+                  >
+                    {mode === "login" ? "Cadastre-se" : "Entrar"}
+                  </button>
+                </p>
+              )}
+
             </>
           )}
           <div className="mt-8"><LgpdNotice /></div>
