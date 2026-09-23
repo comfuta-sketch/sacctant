@@ -28,7 +28,8 @@ const emailSchema = z.string().trim().toLowerCase().email("E-mail inválido.");
 
 function RecuperarPage() {
   const search = Route.useSearch();
-  const isAdmin = search.redirect === "/admin";
+  // Recuperação de senha do administrador está desativada: sempre fluxo de cliente (CPF + e-mail).
+  const isAdmin = false && search.redirect === "/admin";
   const verify = useServerFn(verifyCpfEmailMatch);
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
