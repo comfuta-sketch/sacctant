@@ -4,7 +4,7 @@ import { Calculator, Loader2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { formatCPF, isValidCPF, onlyDigits } from "@/lib/auth-helpers";
+import { formatCPF, isValidCPF, onlyDigits, translateAuthError } from "@/lib/auth-helpers";
 import { verifyCpfEmailMatch } from "@/lib/auth.functions";
 import { LgpdNotice } from "@/components/LgpdNotice";
 
@@ -70,7 +70,7 @@ function RecuperarPage() {
       }
       setSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao processar.");
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ import { Calculator, Loader2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { formatCPF, isValidCPF, onlyDigits } from "@/lib/auth-helpers";
+import { formatCPF, isValidCPF, onlyDigits, translateAuthError } from "@/lib/auth-helpers";
 import { PasswordInput } from "@/components/PasswordInput";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { resolveClientEmailByCpf } from "@/lib/auth.functions";
@@ -182,16 +182,7 @@ function AuthPage() {
       }
 
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro ao processar.";
-      if (/Invalid login credentials/i.test(msg))
-        setError("CPF/e-mail ou senha incorretos.");
-      else if (/Email not confirmed/i.test(msg)) {
-        setError(
-          "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.",
-        );
-      } else if (/already registered/i.test(msg))
-        setError("Já existe um cadastro com esses dados. Faça login.");
-      else setError(msg);
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -214,10 +205,7 @@ function AuthPage() {
       if (vErr) throw vErr;
       navigate({ to: "/cliente" });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro ao verificar.";
-      if (/expired|invalid/i.test(msg))
-        setError("Código inválido ou expirado. Solicite um novo.");
-      else setError(msg);
+      setError(translateAuthError(err, "Código inválido ou expirado. Solicite um novo."));
     } finally {
       setLoading(false);
     }
@@ -234,7 +222,7 @@ function AuthPage() {
       if (rErr) throw rErr;
       setInfo("Novo código enviado.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao reenviar.");
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }

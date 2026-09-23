@@ -41,3 +41,28 @@ export const WHATSAPP_HANDLE = "@MarcosMelo.Advisory";
 export const WHATSAPP_DEFAULT_MSG =
   "Olá, vim pelo site da MF Advisory e gostaria de agendar um diagnóstico privado.";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MSG)}`;
+
+/** Traduz mensagens de erro da autenticação para português. */
+export function translateAuthError(err: unknown, fallback = "Não foi possível concluir. Tente novamente."): string {
+  const msg = err instanceof Error ? err.message : typeof err === "string" ? err : "";
+  if (!msg) return fallback;
+  const rules: [RegExp, string][] = [
+    [/Invalid login credentials/i, "CPF/e-mail ou senha incorretos."],
+    [/Email not confirmed/i, "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada e o spam."],
+    [/already registered|already exists|User already/i, "Já existe uma conta com este e-mail. Faça login ou recupere sua senha."],
+    [/pwned|leaked|compromised|known to be weak|weak/i, "Esta senha é muito fraca ou já apareceu em vazamentos na internet. Escolha outra senha, com letras, números e símbolos."],
+    [/Password should be at least (\d+)/i, "A senha deve ter pelo menos 8 caracteres."],
+    [/Password should contain/i, "A senha deve conter letras maiúsculas, minúsculas, números e símbolos."],
+    [/same.*password|different from the old/i, "A nova senha deve ser diferente da senha atual."],
+    [/rate limit|too many|security purposes.*after (\d+)/i, "Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente."],
+    [/expired|invalid.*(token|otp|code)|otp.*invalid|Token has expired/i, "Código ou link inválido ou expirado. Solicite um novo."],
+    [/Unable to validate email|invalid email|Email address .* is invalid/i, "E-mail inválido."],
+    [/Signups not allowed|signup.*disabled/i, "Novos cadastros estão temporariamente desativados."],
+    [/Auth session missing|session.*not found/i, "Sessão expirada. Abra novamente o link recebido por e-mail."],
+    [/User not found/i, "Conta não encontrada."],
+    [/network|Failed to fetch/i, "Falha de conexão. Verifique sua internet e tente novamente."],
+    [/Error sending|sending.*email/i, "Não foi possível enviar o e-mail agora. Tente novamente em alguns minutos."],
+  ];
+  for (const [re, pt] of rules) if (re.test(msg)) return pt;
+  return fallback;
+}
