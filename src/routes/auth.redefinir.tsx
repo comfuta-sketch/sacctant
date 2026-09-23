@@ -5,6 +5,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { PasswordInput } from "@/components/PasswordInput";
 import { LgpdNotice } from "@/components/LgpdNotice";
+import { translateAuthError } from "@/lib/auth-helpers";
 
 export const Route = createFileRoute("/auth/redefinir")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -102,7 +103,7 @@ function RedefinirPage() {
       setDone(true);
       window.setTimeout(() => navigate({ to: search.redirect }), 1500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao redefinir.");
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }

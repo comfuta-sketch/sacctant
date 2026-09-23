@@ -182,16 +182,7 @@ function AuthPage() {
       }
 
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro ao processar.";
-      if (/Invalid login credentials/i.test(msg))
-        setError("CPF/e-mail ou senha incorretos.");
-      else if (/Email not confirmed/i.test(msg)) {
-        setError(
-          "Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.",
-        );
-      } else if (/already registered/i.test(msg))
-        setError("Já existe um cadastro com esses dados. Faça login.");
-      else setError(msg);
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -214,10 +205,7 @@ function AuthPage() {
       if (vErr) throw vErr;
       navigate({ to: "/cliente" });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Erro ao verificar.";
-      if (/expired|invalid/i.test(msg))
-        setError("Código inválido ou expirado. Solicite um novo.");
-      else setError(msg);
+      setError(translateAuthError(err, "Código inválido ou expirado. Solicite um novo."));
     } finally {
       setLoading(false);
     }
