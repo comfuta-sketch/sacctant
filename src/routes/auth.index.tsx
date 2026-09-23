@@ -4,7 +4,7 @@ import { Calculator, Loader2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { formatCPF, isValidCPF, onlyDigits } from "@/lib/auth-helpers";
+import { formatCPF, isValidCPF, onlyDigits, translateAuthError } from "@/lib/auth-helpers";
 import { PasswordInput } from "@/components/PasswordInput";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { resolveClientEmailByCpf } from "@/lib/auth.functions";
@@ -234,7 +234,7 @@ function AuthPage() {
       if (rErr) throw rErr;
       setInfo("Novo código enviado.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao reenviar.");
+      setError(translateAuthError(err));
     } finally {
       setLoading(false);
     }
